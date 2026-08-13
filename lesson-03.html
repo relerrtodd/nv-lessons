@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Урок 3 · Elements: ваш персонаж в каждом кадре</title>
+<title>Урок 3 · Видео: модели, цены и первое оживление</title>
 
 <style>
 @font-face {
@@ -106,7 +106,7 @@
   :root{
     --paper:#FBF9F4; --card:#FFFDFA; --ink:#221D16; --ink-2:#6E6659; --ink-3:#A39B8B;
     --line:rgba(34,29,22,.08); --line-2:rgba(34,29,22,.14);
-    --sage:#B7791F; --sage-soft:#F7EFDF; --clay:#B4653F; --clay-soft:#F7EDE6;
+    --sage:#2F4B58; --sage-soft:#E6EEF1; --clay:#B4653F; --clay-soft:#F7EDE6;
     --shadow:0 24px 48px -28px rgba(34,29,22,.18);
     --ease:cubic-bezier(0.32,0.72,0,1);
     --r-out:26px; --r-in:20px;
@@ -118,7 +118,7 @@
   body::before{content:''; position:fixed; inset:0; z-index:40; pointer-events:none; opacity:.028;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");}
   .glow{position:fixed; top:-220px; right:-180px; width:640px; height:640px; z-index:0; pointer-events:none;
-    background:radial-gradient(circle at center, rgba(183,121,31,.09), transparent 62%);}
+    background:radial-gradient(circle at center, rgba(47,75,88,.10), transparent 62%);}
   .page{max-width:780px; margin:0 auto; padding:72px 28px 96px; position:relative; z-index:1;}
 
   .eyebrow{display:inline-flex; align-items:center; gap:8px; border:1px solid var(--line-2); border-radius:999px;
@@ -131,6 +131,7 @@
   .meta{display:flex; gap:10px; flex-wrap:wrap; margin-top:26px;}
   .chip{border:1px solid var(--line-2); background:var(--card); border-radius:999px; padding:7px 16px;
     font-size:13.5px; color:var(--ink-2); box-shadow:0 1px 0 rgba(255,255,255,.6) inset;}
+  .chip.warn{background:var(--clay-soft); border-color:rgba(180,101,63,.3); color:var(--clay); font-weight:600;}
   .rule{height:1px; background:var(--line); margin:56px 0;}
 
   section{margin-bottom:64px;}
@@ -169,11 +170,19 @@
   .step .hint{display:block; font-size:13.5px; color:var(--ink-3); margin-top:3px;}
   .step b{font-weight:600;}
   kbd.ui{font-family:'Golos Text',sans-serif; font-size:13px; font-weight:600; color:var(--ink);
-    background:var(--sage-soft); border:1px solid rgba(183,121,31,.3); border-radius:7px; padding:1.5px 9px; white-space:nowrap;}
+    background:var(--sage-soft); border:1px solid rgba(47,75,88,.25); border-radius:7px; padding:1.5px 9px; white-space:nowrap;}
+
+  table.md{width:100%; border-collapse:collapse; font-size:14px;}
+  table.md th{font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-3); text-align:left; padding:0 12px 10px 0; font-weight:600;}
+  table.md td{padding:11px 12px 11px 0; border-top:1px solid var(--line); vertical-align:top;}
+  table.md td b{font-weight:600;}
+  table.md td.c{font-family:'JetBrains Mono',Consolas,monospace; font-size:12.5px; color:#3A3428; white-space:nowrap; font-variant-numeric:tabular-nums;}
+  table.md tr.cheap td.c{color:#2F6B4F; font-weight:500;}
+  table.md tr.pricey td.c{color:var(--clay); font-weight:500;}
 
   .prompt .core{padding:0; overflow:hidden;}
   .prompt-top{display:flex; align-items:center; justify-content:space-between; gap:12px;
-    padding:13px 20px; border-bottom:1px solid var(--line); background:linear-gradient(180deg,rgba(183,121,31,.06),transparent);}
+    padding:13px 20px; border-bottom:1px solid var(--line); background:linear-gradient(180deg,rgba(47,75,88,.06),transparent);}
   .prompt-top span{font-size:11px; font-weight:600; letter-spacing:.18em; text-transform:uppercase; color:var(--sage);}
   .copy-btn{display:inline-flex; align-items:center; gap:8px; border:1px solid var(--line-2); background:var(--card);
     border-radius:999px; padding:6px 7px 6px 15px; font-family:'Golos Text',sans-serif; font-size:12.5px; font-weight:600;
@@ -204,19 +213,20 @@
   .stop-head h3{font-family:'Piazzolla',Georgia,serif; font-weight:600; font-size:19px;}
   .stop-head .tag{margin-left:auto; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-3); white-space:nowrap;}
 
-  .takeaway{background:linear-gradient(135deg,var(--sage-soft),#F5F2E9); border:1px solid rgba(183,121,31,.24);
+  .takeaway{background:linear-gradient(135deg,var(--sage-soft),#F2F1E9); border:1px solid rgba(47,75,88,.22);
     border-radius:var(--r-out); padding:24px 28px; display:flex; gap:16px; align-items:flex-start; box-shadow:var(--shadow);}
-  .takeaway .mark{width:34px; height:34px; border-radius:12px; background:rgba(183,121,31,.14); color:var(--sage);
+  .takeaway .mark{width:34px; height:34px; border-radius:12px; background:rgba(47,75,88,.14); color:var(--sage);
     display:inline-flex; align-items:center; justify-content:center; font-size:16px; font-weight:600; flex-shrink:0;}
   .takeaway p{font-size:15.5px;}
   .takeaway b{font-weight:600;}
 
-  .triad{display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px;}
-  @media(max-width:640px){.triad{grid-template-columns:1fr;}}
-  .tri{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:18px 20px; text-align:center; box-shadow:var(--shadow);}
-  .tri .ico{font-size:26px;}
-  .tri h4{font-size:15px; font-weight:600; margin:8px 0 3px;}
-  .tri p{font-size:13px; color:var(--ink-2);}
+  .rules3{display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin-top:18px;}
+  @media(max-width:680px){.rules3{grid-template-columns:1fr;}}
+  .rl{background:var(--card); border:1px solid var(--line); border-radius:18px; padding:18px 20px; box-shadow:var(--shadow);}
+  .rl .n{width:28px; height:28px; border-radius:9px; background:var(--sage-soft); color:var(--sage);
+    display:inline-flex; align-items:center; justify-content:center; font-weight:600; font-size:13px; margin-bottom:9px;}
+  .rl p{font-size:13.5px; color:#3D4154;}
+  .rl b{color:var(--ink); font-weight:600;}
 
   .hw-item{display:flex; gap:18px; padding:16px 0;}
   .hw-item + .hw-item{border-top:1px solid var(--line);}
@@ -240,13 +250,12 @@
     body{background:#fff; font-size:13px;}
     body::before,.glow{display:none;}
     .page{max-width:100%; padding:24px 8px;}
-    .shell,.takeaway,.tri{box-shadow:none; break-inside:avoid;}
+    .shell,.takeaway,.rl{box-shadow:none; break-inside:avoid;}
     .copy-btn{display:none;}
     section{margin-bottom:36px;}
     .rule{margin:28px 0;}
     -webkit-print-color-adjust:exact; print-color-adjust:exact;
   }
-  :focus-visible{outline:2.5px solid var(--sage); outline-offset:3px; border-radius:6px;}
 </style>
 </head>
 <body>
@@ -254,13 +263,13 @@
 <div class="page">
 
   <header>
-    <span class="eyebrow rv"><span class="dot"></span>Курс нейровидео · Урок третий</span>
-    <h1 class="rv">Elements: ваш персонаж<br><span class="hl">в каждом кадре</span></h1>
-    <p class="lede rv">Сегодня решаем главную проблему нейрографики — «в каждом кадре герой чуть другой». Создаём вашего маскота, его мир и реквизит — и собираем первые консистентные сцены.</p>
+    <span class="eyebrow rv"><span class="dot"></span>Курс нейровидео · Урок четвёртый</span>
+    <h1 class="rv">Видео: модели, цены<br>и <span class="hl">первое оживление</span></h1>
+    <p class="lede rv">Картинки были бесплатны — видео стоит кредитов. Сегодня разбираемся в ценах, ставим скилл Kling 3.0 в память и оживляем ваши кадры, сравнивая дешёвую модель с дорогой.</p>
     <div class="meta rv">
       <span class="chip">60 минут</span>
       <span class="chip">Онлайн · Zoom</span>
-      <span class="chip">Расход: ≈0–5 кредитов</span>
+      <span class="chip warn">Расход: ~30–40 кредитов</span>
     </div>
   </header>
 
@@ -270,9 +279,9 @@
     <span class="eyebrow rv"><span class="dot"></span>К концу урока у вас будет</span>
     <div class="shell outcomes rv" style="margin-top:18px;">
       <div class="core">
-        <div class="outcome"><div class="k">01</div><p><b>Маскот-Element</b> — одинаковый в любых кадрах</p></div>
-        <div class="outcome"><div class="k">02</div><p><b>Триада:</b> персонаж + окружение + реквизит в сценах</p></div>
-        <div class="outcome"><div class="k">03</div><p><b>Reference-board</b> — приём «цементирования» героя</p></div>
+        <div class="outcome"><div class="k">01</div><p><b>Карта цен:</b> какая модель сколько стоит и когда её брать</p></div>
+        <div class="outcome"><div class="k">02</div><p><b>Скилл Kling 3.0</b> в памяти — промпты движения пишутся сами</p></div>
+        <div class="outcome"><div class="k">03</div><p><b>Первые оживлённые кадры</b> и сравнение двух моделей</p></div>
       </div>
     </div>
   </section>
@@ -281,8 +290,9 @@
     <div class="part-head rv"><span class="no">До урока</span><h2>Самостоятельно</h2></div>
     <div class="shell rv"><div class="core">
       <ul class="steps">
-        <li class="step"><input type="checkbox" id="b1"><label for="b1">ДЗ урока 2 отправлено мне (три режима референса + сцены в едином стиле)</label></li>
-        <li class="step"><input type="checkbox" id="b2"><label for="b2">Подумайте: каким вы видите маскота вашего ролика?<span class="hint">Зверёк, человечек, абстрактная фигурка? Достаточно 2–3 предложений</span></label></li>
+        <li class="step"><input type="checkbox" id="b1"><label for="b1">ДЗ урока 2 прислано: персонаж, окружение, реквизит и 6 сцен</label></li>
+        <li class="step"><input type="checkbox" id="b2"><label for="b2">Выберите 2 свои лучшие сцены с персонажем — сегодня их оживим</label></li>
+        <li class="step"><input type="checkbox" id="b3"><label for="b3">Проверьте баланс кредитов: на урок нужно ~40</label></li>
       </ul>
     </div></div>
   </section>
@@ -291,115 +301,107 @@
     <div class="part-head rv"><span class="no">Часть 1 · 7 минут</span><h2>Разбор домашки</h2></div>
     <div class="shell rv"><div class="core">
       <ul class="steps">
-        <li class="step"><input type="checkbox" id="p1a"><label for="p1a">Смотрим ваши три режима: получилось уйти от копирования исходника?</label></li>
-        <li class="step"><input type="checkbox" id="p1b"><label for="p1b">Проверяем сцены в едином стиле — style-блок держит?</label></li>
+        <li class="step"><input type="checkbox" id="p1a"><label for="p1a">Смотрим 6 сцен с персонажем: где герой держится, где поплыл</label></li>
+        <li class="step"><input type="checkbox" id="p1b"><label for="p1b">Отбираем 2 кадра под оживление<span class="hint">Хорошо оживают: один герой, простой фон, есть «воздух» вокруг персонажа</span></label></li>
       </ul>
     </div></div>
   </section>
 
   <section>
-    <div class="part-head rv"><span class="no">Часть 2 · 8 минут</span><h2>Что такое Elements</h2></div>
-    <p class="part-sub rv">Вы уже видели проблему: в каждом новом кадре нейросеть рисует персонажа заново — чуть другого. Elements решает это.</p>
-    <div class="triad rv">
-      <div class="tri"><div class="ico">🧸</div><h4>Персонаж</h4><p>Ваш маскот — герой ролика</p></div>
-      <div class="tri"><div class="ico">🏥</div><h4>Окружение</h4><p>Мир, где он живёт</p></div>
-      <div class="tri"><div class="ico">💙</div><h4>Реквизит</h4><p>Предмет-символ в его руках</p></div>
-    </div>
+    <div class="part-head rv"><span class="no">Часть 2 · 13 минут</span><h2>Экономика видео</h2></div>
+    <p class="part-sub rv">Картинки были бесплатны. Видео — нет, поэтому <b>сначала цены, потом кнопки</b>.</p>
+    <div class="shell rv"><div class="core">
+      <table class="md">
+        <tr><th>Модель</th><th>Что это</th><th>Цена ~5 сек</th></tr>
+        <tr class="cheap"><td><b>Kling 3.0 Turbo</b></td><td>Наш рабочий выбор: дёшево и достойно</td><td class="c">~7.5 кр</td></tr>
+        <tr class="cheap"><td><b>Kling 3.0</b></td><td>Та же модель, качество выше</td><td class="c">~10 кр</td></tr>
+        <tr><td><b>Seedance 2.0 Mini</b></td><td>Лучше держит стиль, дороже</td><td class="c">~12.5 кр</td></tr>
+        <tr class="pricey"><td><b>Seedance 2.0</b> 720p / 1080p / 4K</td><td>Лучшая на платформе, для финала</td><td class="c">22 / 45 / 110 кр</td></tr>
+        <tr><td><b>Gemini Omni Flash</b></td><td>Не генератор, а редактор готового видео</td><td class="c">по задаче</td></tr>
+      </table>
+    </div></div>
     <div style="margin-top:18px;" class="rv">
       <ul class="steps">
-        <li class="step"><input type="checkbox" id="e1"><label for="e1"><b>Element</b> — сохранённый ассет платформы: создаётся один раз, дальше подставляется в любые промпты</label></li>
-        <li class="step"><input type="checkbox" id="e2"><label for="e2">Работает везде: в картинках, в видео и прямо в Supercomputer (вызов через <kbd class="ui">@имя</kbd>)</label></li>
-        <li class="step"><input type="checkbox" id="e3"><label for="e3">Ограничение: <b>не больше 3 элементов в одной сцене</b> — наша триада как раз укладывается</label></li>
-        <li class="step"><input type="checkbox" id="e4"><label for="e4">Демо: мой персонаж в трёх разных сценах — одно лицо, один стиль</label></li>
+        <li class="step"><input type="checkbox" id="v1"><label for="v1">Откройте <kbd class="ui">Video</kbd> и найдите эти модели в списке</label></li>
+        <li class="step"><input type="checkbox" id="v2"><label for="v2">Найдите, где показывается цена перед запуском<span class="hint">Привычка смотреть туда экономит больше всего</span></label></li>
       </ul>
     </div>
+    <div class="rules3 rv">
+      <div class="rl"><span class="n">1</span><p><b>Черновик — на дешёвой модели.</b> Проверили движение на Kling Turbo, финал сняли на Seedance.</p></div>
+      <div class="rl"><span class="n">2</span><p><b>Перегенерация картинки бесплатна, видео — нет.</b> Не нравится кадр — правьте картинку, а не клип.</p></div>
+      <div class="rl"><span class="n">3</span><p><b>Supercomputer тянется к Seedance 2.0</b> — самой дорогой. Модель называем в запросе сами.</p></div>
+    </div>
     <figure class="shell shot rv"><div class="core">
-      <img src="assets/lesson-03/01-library.png" alt="Библиотека Elements" onerror="this.closest('.shot').classList.add('missing')">
-      <div class="ph"><span>📷 скриншот: 01-library.png — библиотека Elements</span></div>
-      <figcaption>Библиотека Elements</figcaption>
+      <img src="assets/lesson-03/01-video-models.png" alt="Панель Video с моделями и ценой" onerror="this.closest('.shot').classList.add('missing')">
+      <div class="ph"><span>📷 скриншот: 01-video-models.png — панель Video с моделями и ценой</span></div>
+      <figcaption>Панель Video: модели и цена перед запуском</figcaption>
     </div></figure>
   </section>
 
   <section>
-    <div class="part-head rv"><span class="no">Часть 3 · 12 минут</span><h2>Reference-board: фиксируем героя</h2></div>
-    <p class="part-sub rv">Style-блок «Стиль проекта Эксплейнер» у вас с прошлого урока — сегодня рисуем в нём героя. Прежде чем сохранять персонажа как элемент, соберите <b>референс-борд</b>: одну картинку-сетку, где герой показан с разных сторон. Такой борд «цементирует» образ.</p>
+    <div class="part-head rv"><span class="no">Часть 3 · 10 минут</span><h2>Скилл Kling 3.0 в память</h2></div>
+    <p class="part-sub rv">Как и с картинками: методику знает скилл, а вы объясняете задачу по-русски.</p>
+    <div class="shell rv"><div class="core">
+      <ul class="steps">
+        <li class="step"><input type="checkbox" id="k1"><label for="k1">Скачайте файл скилла <b>Kling 3.0</b> (пришлю в чат) и перетащите его в окно Supercomputer</label></li>
+        <li class="step"><input type="checkbox" id="k2"><label for="k2">Отправьте команду из рамки ниже</label></li>
+        <li class="step"><input type="checkbox" id="k3"><label for="k3">Проверка: попросите по-русски «промпт движения для кадра, где персонаж машет рукой»</label></li>
+        <li class="step"><input type="checkbox" id="k4"><label for="k4">Связка та же, что с картинками: <b>промпт пишем в Supercomputer, генерируем руками во вкладке Video</b></label></li>
+      </ul>
+    </div></div>
+    <div class="shell prompt rv"><div class="core">
+      <div class="prompt-top"><span>Команда установки скилла</span><button class="copy-btn" data-copy="pr1">Скопировать <span class="ico">→</span></button></div>
+      <pre id="pr1">Установи и изучи этот скилл. Запомни: когда я прошу промпт для
+видео — пиши по этой методике. И всегда называй модель и цену
+до запуска генерации.</pre>
+    </div></div>
+  </section>
+
+  <section>
+    <div class="part-head rv"><span class="no">Часть 4 · 25 минут</span><h2>Оживляем ваши кадры</h2></div>
 
     <div class="shell stop rv"><div class="core">
-      <div class="stop-head"><span class="pin">✦</span><h3>Собираем борд</h3><span class="tag">GPT Image 2 · ~2 кр</span></div>
+      <div class="stop-head"><span class="pin">А</span><h3>Первый клип на дешёвой модели</h3><span class="tag">Kling 3.0 Turbo · ~7.5 кр</span></div>
       <ul class="steps">
-        <li class="step"><input type="checkbox" id="r4b"><label for="r4b">Проверьте, что стиль на месте: попросите Supercomputer промпт для любой сцены проекта — style-блок должен подставиться сам</label></li>
-        <li class="step"><input type="checkbox" id="r5"><label for="r5">Соберите борд-промпт: рамка ниже + ваше описание персонажа + ваш style-блок</label></li>
-        <li class="step"><input type="checkbox" id="r6"><label for="r6">Прикрепите стоп-кадр референса как изображение-референс и сгенерируйте в <kbd class="ui">GPT Image 2</kbd><span class="hint">Он лучший в сетках-раскладках</span></label></li>
-        <li class="step"><input type="checkbox" id="r7"><label for="r7">Не понравился герой? Правьте описание и перегенерируйте — доводим до «это он!»</label></li>
-      </ul>
-    </div></div>
-
-    <div class="shell prompt rv"><div class="core">
-      <div class="prompt-top">
-        <span>Промпт reference-board · подставьте описание и style-блок</span>
-        <button class="copy-btn" data-copy="pr1c">Скопировать <span class="ico">→</span></button>
-      </div>
-      <pre id="pr1c">Character reference sheet on white background, one cartoon mascot
-character shown in a grid: front view, side view, back view, happy
-face close-up, waving pose, sitting pose.
-[ОПИШИТЕ ПЕРСОНАЖА: a friendly round blue blob wearing a doctor's
-white coat]. [ВСТАВЬТЕ ВАШ STYLE-БЛОК С УРОКА 2].
-Consistent proportions in every view, no text.</pre>
-    </div></div>
-
-    <figure class="shell shot rv"><div class="core">
-      <img src="assets/lesson-03/02-refboard.png" alt="Reference-board персонажа" onerror="this.closest('.shot').classList.add('missing')">
-      <div class="ph"><span>📷 скриншот: 02-refboard.png — reference-board персонажа</span></div>
-      <figcaption>Reference-board: герой с разных сторон одним изображением</figcaption>
-    </div></figure>
-  </section>
-
-  <section>
-    <div class="part-head rv"><span class="no">Часть 4 · 15 минут</span><h2>Создаём триаду элементов</h2></div>
-    <div class="shell rv"><div class="core">
-      <ul class="steps">
-        <li class="step"><input type="checkbox" id="t1"><label for="t1"><b>Персонаж:</b> сохраните героя с борда как Element — дайте имя<span class="hint">Например, «Доктор Кит»</span></label></li>
-        <li class="step"><input type="checkbox" id="t2"><label for="t2"><b>Окружение:</b> сгенерируйте локацию ролика по рамке ниже → сохраните как Element</label></li>
-        <li class="step"><input type="checkbox" id="t3"><label for="t3"><b>Реквизит:</b> один предмет-символ (сердечко, планшет с галочкой, календарик) на чистом фоне → Element</label></li>
-        <li class="step"><input type="checkbox" id="t4"><label for="t4">Проверьте: все три появились в библиотеке Elements</label></li>
+        <li class="step"><input type="checkbox" id="a1"><label for="a1">Откройте <kbd class="ui">Video</kbd>, загрузите свою сцену (image-to-video), выберите <kbd class="ui">Kling 3.0 Turbo</kbd></label></li>
+        <li class="step"><input type="checkbox" id="a2"><label for="a2">Вставьте промпт движения из рамки и запустите</label></li>
+        <li class="step"><input type="checkbox" id="a3"><label for="a3">Пока рендерится — разбираем, что мы попросили: одно движение, статичная камера, запрет менять стиль</label></li>
       </ul>
     </div></div>
     <div class="shell prompt rv"><div class="core">
-      <div class="prompt-top">
-        <span>Промпт окружения</span>
-        <button class="copy-btn" data-copy="pr2">Скопировать <span class="ico">→</span></button>
-      </div>
-      <pre id="pr2">Empty modern clinic reception interior, no people.
-[ВАШ STYLE-БЛОК]. Wide composition, cozy and welcoming mood, no text.</pre>
+      <div class="prompt-top"><span>Промпт движения</span><button class="copy-btn" data-copy="pr2">Скопировать <span class="ico">→</span></button></div>
+      <pre id="pr2">Preserve the illustration style exactly. The character waves slowly
+with gentle idle motion, soft breathing movement, subtle sparkle
+drift in the background. Static camera. Do not change colours,
+outlines or layout. No morphing, no extra limbs.</pre>
     </div></div>
-    <figure class="shell shot rv"><div class="core">
-      <img src="assets/lesson-03/03-create.png" alt="Создание элемента" onerror="this.closest('.shot').classList.add('missing')">
-      <div class="ph"><span>📷 скриншот: 03-create.png — создание элемента</span></div>
-      <figcaption>Сохранение ассета как Element</figcaption>
-    </div></figure>
-  </section>
 
-  <section>
-    <div class="part-head rv"><span class="no">Часть 5 · 15 минут</span><h2>Сцены из элементов</h2></div>
-    <div class="shell rv"><div class="core">
+    <div class="shell stop rv"><div class="core">
+      <div class="stop-head"><span class="pin">Б</span><h3>Та же сцена, модель дороже</h3><span class="tag">Seedance 2.0 Mini · ~12.5 кр</span></div>
       <ul class="steps">
-        <li class="step"><input type="checkbox" id="s1"><label for="s1">Соберите сцену: сошлитесь на элементы (через @ или выбор из библиотеки) и опишите только действие</label></li>
-        <li class="step"><input type="checkbox" id="s2"><label for="s2">Сгенерируйте 2–3 разные сцены: у стойки · крупный план с реквизитом · машет на прощание</label></li>
-        <li class="step"><input type="checkbox" id="s3"><label for="s3">Проверка консистентности: положите сцены рядом — это один и тот же герой?</label></li>
+        <li class="step"><input type="checkbox" id="b1x"><label for="b1x">Тот же кадр и тот же промпт, но модель <kbd class="ui">Seedance 2.0 Mini</kbd></label></li>
+        <li class="step"><input type="checkbox" id="b2x"><label for="b2x">Сравните пары: плавность, сохранение стиля, артефакты<span class="hint">Стоит ли разница в цене — решаете вы</span></label></li>
       </ul>
     </div></div>
-    <div class="shell prompt rv"><div class="core">
-      <div class="prompt-top">
-        <span>Шаблон сцены с элементами</span>
-        <button class="copy-btn" data-copy="pr3">Скопировать <span class="ico">→</span></button>
-      </div>
-      <pre id="pr3">[@персонаж] стоит в [@окружение], держит [@реквизит] и радостно
-показывает его зрителю. Медиум-план, персонаж смотрит в камеру.</pre>
+
+    <div class="shell stop rv"><div class="core">
+      <div class="stop-head"><span class="pin">В</span><h3>Своё движение через скилл</h3><span class="tag">Kling 3.0 Turbo</span></div>
+      <ul class="steps">
+        <li class="step"><input type="checkbox" id="c1x"><label for="c1x">Опишите Supercomputer по-русски, что должно происходить во второй вашей сцене</label></li>
+        <li class="step"><input type="checkbox" id="c2x"><label for="c2x">Получите промпт, сгенерируйте на Kling 3.0 Turbo</label></li>
+      </ul>
     </div></div>
+
     <div class="takeaway rv" style="margin-top:20px;">
       <span class="mark">!</span>
-      <p><b>Главный актив ролика получен:</b> герой, который не меняется от кадра к кадру. Всё остальное — сцены вокруг него.</p>
+      <p><b>Правило амплитуды:</b> в мультяшном эксплейнере работает микродвижение — дыхание, лёгкий наклон, моргание, дрейф фона. Попросите «побежал, повернулся, взмахнул» — получите кашу.</p>
     </div>
+
+    <figure class="shell shot rv"><div class="core">
+      <img src="assets/lesson-03/02-i2v.png" alt="Image-to-video с загруженным кадром" onerror="this.closest('.shot').classList.add('missing')">
+      <div class="ph"><span>📷 скриншот: 02-i2v.png — image-to-video с загруженным кадром</span></div>
+      <figcaption>Image-to-video: кадр загружен, промпт движения на месте</figcaption>
+    </div></figure>
   </section>
 
   <div class="rule"></div>
@@ -409,27 +411,27 @@ Consistent proportions in every view, no text.</pre>
     <div class="shell rv" style="margin-top:18px;"><div class="core">
       <div class="hw-item">
         <span class="n">1</span>
-        <div><h4>Доведите триаду</h4><p>Персонаж + окружение + реквизит финально сохранены с понятными именами.</p></div>
+        <div><h4>Оживите 4–5 кадров</h4><p>Из своих сцен, на Kling 3.0 Turbo (~35 кредитов). Промпты движения — через Supercomputer.</p></div>
       </div>
       <div class="hw-item">
         <span class="n">2</span>
-        <div><h4>6 сцен с персонажем</h4><p>Разные действия и планы (общий / средний / крупный) — всё на безлимитных моделях.</p></div>
+        <div><h4>Сохраните удачные и неудачные клипы</h4><p>На следующем уроке разберём, из-за чего картинка рассыпается.</p></div>
       </div>
       <div class="hw-item">
         <span class="n">3</span>
-        <div><h4>Сцена со всеми тремя элементами</h4><p>Персонаж, окружение и реквизит в одном кадре — проверим на практике лимит в 3 элемента.</p></div>
+        <div><h4>Запишите расход кредитов</h4><p>Это ваша реальная стоимость минуты видео — пригодится, когда будете считать смету клиенту.</p></div>
       </div>
       <div class="hw-item">
         <span class="n">4</span>
-        <div><h4>Пришлите мне борд и 6 сцен</h4><p>Из них выберем те, что будем оживлять на следующем уроке.</p></div>
+        <div><h4>Пришлите мне 2 лучших клипа</h4><p>В Telegram или в чат.</p></div>
       </div>
       <div class="hw-check">
         <h4>Чек готовности к уроку 4</h4>
         <ul class="steps">
-          <li class="step"><input type="checkbox" id="h1"><label for="h1">Триада элементов в библиотеке</label></li>
-          <li class="step"><input type="checkbox" id="h3"><label for="h3">6 сцен: герой узнаваем в каждой</label></li>
-          <li class="step"><input type="checkbox" id="h4"><label for="h4">Есть сцена, где персонаж, окружение и реквизит вместе</label></li>
-          <li class="step"><input type="checkbox" id="h5"><label for="h5">Борд и сцены отправлены мне</label></li>
+          <li class="step"><input type="checkbox" id="h1"><label for="h1">Скилл Kling 3.0 в памяти, промпты движения приходят по методике</label></li>
+          <li class="step"><input type="checkbox" id="h2"><label for="h2">4–5 оживлённых кадров</label></li>
+          <li class="step"><input type="checkbox" id="h3"><label for="h3">Понятно, сколько стоит один клип и сколько кредитов осталось</label></li>
+          <li class="step"><input type="checkbox" id="h4"><label for="h4">Клипы отправлены мне</label></li>
         </ul>
       </div>
     </div></div>

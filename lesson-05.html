@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Урок 5 · оценарии: Writer и ваш собственный скилл</title>
+<title>Урок 5 · Audio: голос вашего ролика</title>
 
 <style>
 @font-face {
@@ -106,7 +106,7 @@
   :root{
     --paper:#FBF9F4; --card:#FFFDFA; --ink:#221D16; --ink-2:#6E6659; --ink-3:#A39B8B;
     --line:rgba(34,29,22,.08); --line-2:rgba(34,29,22,.14);
-    --sage:#8A5A44; --sage-soft:#F3EAE4; --clay:#B4653F; --clay-soft:#F7EDE6;
+    --sage:#7A4E9E; --sage-soft:#F0EAF6; --clay:#B4653F; --clay-soft:#F7EDE6;
     --shadow:0 24px 48px -28px rgba(34,29,22,.18);
     --ease:cubic-bezier(0.32,0.72,0,1);
     --r-out:26px; --r-in:20px;
@@ -118,7 +118,7 @@
   body::before{content:''; position:fixed; inset:0; z-index:40; pointer-events:none; opacity:.028;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");}
   .glow{position:fixed; top:-220px; right:-180px; width:640px; height:640px; z-index:0; pointer-events:none;
-    background:radial-gradient(circle at center, rgba(138,90,68,.09), transparent 62%);}
+    background:radial-gradient(circle at center, rgba(122,78,158,.09), transparent 62%);}
   .page{max-width:780px; margin:0 auto; padding:72px 28px 96px; position:relative; z-index:1;}
 
   .eyebrow{display:inline-flex; align-items:center; gap:8px; border:1px solid var(--line-2); border-radius:999px;
@@ -169,11 +169,16 @@
   .step .hint{display:block; font-size:13.5px; color:var(--ink-3); margin-top:3px;}
   .step b{font-weight:600;}
   kbd.ui{font-family:'Golos Text',sans-serif; font-size:13px; font-weight:600; color:var(--ink);
-    background:var(--sage-soft); border:1px solid rgba(138,90,68,.28); border-radius:7px; padding:1.5px 9px; white-space:nowrap;}
+    background:var(--sage-soft); border:1px solid rgba(122,78,158,.28); border-radius:7px; padding:1.5px 9px; white-space:nowrap;}
+
+  table.md{width:100%; border-collapse:collapse; font-size:14px;}
+  table.md th{font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-3); text-align:left; padding:0 12px 10px 0; font-weight:600;}
+  table.md td{padding:11px 12px 11px 0; border-top:1px solid var(--line); vertical-align:top;}
+  table.md td b{font-weight:600;}
 
   .prompt .core{padding:0; overflow:hidden;}
   .prompt-top{display:flex; align-items:center; justify-content:space-between; gap:12px;
-    padding:13px 20px; border-bottom:1px solid var(--line); background:linear-gradient(180deg,rgba(138,90,68,.06),transparent);}
+    padding:13px 20px; border-bottom:1px solid var(--line); background:linear-gradient(180deg,rgba(122,78,158,.06),transparent);}
   .prompt-top span{font-size:11px; font-weight:600; letter-spacing:.18em; text-transform:uppercase; color:var(--sage);}
   .copy-btn{display:inline-flex; align-items:center; gap:8px; border:1px solid var(--line-2); background:var(--card);
     border-radius:999px; padding:6px 7px 6px 15px; font-family:'Golos Text',sans-serif; font-size:12.5px; font-weight:600;
@@ -196,9 +201,9 @@
     color:var(--ink-3); font-size:13px;}
   .shot figcaption{font-size:12.5px; color:var(--ink-3); text-align:center; padding:10px 0 4px;}
 
-  .takeaway{background:linear-gradient(135deg,var(--sage-soft),#F5F2E9); border:1px solid rgba(138,90,68,.24);
+  .takeaway{background:linear-gradient(135deg,var(--sage-soft),#F5F2E9); border:1px solid rgba(122,78,158,.22);
     border-radius:var(--r-out); padding:24px 28px; display:flex; gap:16px; align-items:flex-start; box-shadow:var(--shadow);}
-  .takeaway .mark{width:34px; height:34px; border-radius:12px; background:rgba(138,90,68,.14); color:var(--sage);
+  .takeaway .mark{width:34px; height:34px; border-radius:12px; background:rgba(122,78,158,.14); color:var(--sage);
     display:inline-flex; align-items:center; justify-content:center; font-size:16px; font-weight:600; flex-shrink:0;}
   .takeaway p{font-size:15.5px;}
   .takeaway b{font-weight:600;}
@@ -231,7 +236,6 @@
     .rule{margin:28px 0;}
     -webkit-print-color-adjust:exact; print-color-adjust:exact;
   }
-  :focus-visible{outline:2.5px solid var(--sage); outline-offset:3px; border-radius:6px;}
 </style>
 </head>
 <body>
@@ -239,13 +243,13 @@
 <div class="page">
 
   <header>
-    <span class="eyebrow rv"><span class="dot"></span>Курс нейровидео · Урок четвёртый</span>
-    <h1 class="rv">оценарии: Writer<br>и <span class="hl">ваш собственный скилл</span></h1>
-    <p class="lede rv">оегодня Supercomputer становится вашим продюсером: агент Writer пишет сценарий, вы превращаете любимый пример в личную методику — и настраиваете память так, чтобы всё работало само.</p>
+    <span class="eyebrow rv"><span class="dot"></span>Курс нейровидео · Урок пятый</span>
+    <h1 class="rv">Audio: голос<br><span class="hl">вашего ролика</span></h1>
+    <p class="lede rv">Сегодня эксплейнер обретает голос: сравниваем три модели озвучки ушами, пробуем диалоги, эффекты и музыку — и начинаем записывать закадр по вашему сценарию.</p>
     <div class="meta rv">
       <span class="chip">60 минут</span>
       <span class="chip">Онлайн · Zoom</span>
-      <span class="chip">≈0 кредитов — только «мозг»</span>
+      <span class="chip">Озвучка — копейки (0.3 кр/реплика)</span>
     </div>
   </header>
 
@@ -255,20 +259,19 @@
     <span class="eyebrow rv"><span class="dot"></span>К концу урока у вас будет</span>
     <div class="shell outcomes rv" style="margin-top:18px;">
       <div class="core">
-        <div class="outcome"><div class="k">01</div><p><b>оценарий ≤30 сек + сториборд</b> — целиком в Supercomputer</p></div>
-        <div class="outcome"><div class="k">02</div><p><b>овой скилл-сценарист</b> из понравившегося примера</p></div>
-        <div class="outcome"><div class="k">03</div><p><b>Память настроена:</b> скиллы применяются сами</p></div>
+        <div class="outcome"><div class="k">01</div><p><b>Голос ролика</b> — выбран честным сравнением трёх моделей</p></div>
+        <div class="outcome"><div class="k">02</div><p><b>Диалоги, эффекты, музыка</b> — через Seed Audio</p></div>
+        <div class="outcome"><div class="k">03</div><p><b>Начатая озвучка</b> вашего эксплейнера</p></div>
       </div>
     </div>
   </section>
 
   <section>
-    <div class="part-head rv"><span class="no">До урока</span><h2>оамостоятельно</h2></div>
+    <div class="part-head rv"><span class="no">До урока</span><h2>Самостоятельно</h2></div>
     <div class="shell rv"><div class="core">
       <ul class="steps">
-        <li class="step"><input type="checkbox" id="b1"><label for="b1">ДЗ урока 4 отправлено (оживлённые клипы); персонаж и сцены с урока 3 под рукой</label></li>
-        <li class="step"><input type="checkbox" id="b2"><label for="b2">Найдите 1–2 коротких ролика (Reels/TikTok), сценарий которых вам нравится — сохраните ссылки</label></li>
-        <li class="step"><input type="checkbox" id="b3"><label for="b3">окилл <b>Kling 3.0</b> стоит в памяти с прошлого урока — проверьте, что он на месте</label></li>
+        <li class="step"><input type="checkbox" id="b1"><label for="b1">Сценарий эксплейнера 45–60 сек согласован со мной<span class="hint">Без него урок не имеет смысла — озвучивать будет нечего</span></label></li>
+        <li class="step"><input type="checkbox" id="b2"><label for="b2">Держите текст сценария под рукой (файл или чат)</label></li>
       </ul>
     </div></div>
   </section>
@@ -277,119 +280,93 @@
     <div class="part-head rv"><span class="no">Часть 1 · 7 минут</span><h2>Разбор домашки</h2></div>
     <div class="shell rv"><div class="core">
       <ul class="steps">
-        <li class="step"><input type="checkbox" id="p1a"><label for="p1a">омотрим 6 сцен: где герой «держится», где поплыл — и почему</label></li>
-        <li class="step"><input type="checkbox" id="p1b"><label for="p1b">Ваш маскот готов сниматься. Осталось написать ему роль</label></li>
+        <li class="step"><input type="checkbox" id="p1a"><label for="p1a">Финальный прогон сценария вслух: читается легко? Спотыкаетесь — упрощаем фразу</label></li>
+        <li class="step"><input type="checkbox" id="p1b"><label for="p1b">Правило хронометража: <b>~2.5 слова в секунду</b>. 60 секунд ≈ 150 слов — проверяем длину</label></li>
       </ul>
     </div></div>
   </section>
 
   <section>
-    <div class="part-head rv"><span class="no">Часть 2 · 12 минут</span><h2>Employees: Writer пишет сценарий</h2></div>
-    <p class="part-sub rv">В Supercomputer есть «сотрудники» — специализированные агенты. Наш первый — <b>Writer</b>.</p>
+    <div class="part-head rv"><span class="no">Часть 2 · 18 минут</span><h2>Три модели озвучки</h2></div>
+    <p class="part-sub rv">Панель <b>Audio</b>. Три генератора — у каждого своя роль.</p>
     <div class="shell rv"><div class="core">
+      <table class="md">
+        <tr><th>Модель</th><th>Характер</th><th>Когда брать</th></tr>
+        <tr><td><b>Eleven V3</b></td><td>Меньше всего акцента в русском</td><td>Главный кандидат на закадровый голос</td></tr>
+        <tr><td><b>Qwen</b></td><td>Почти без акцента, дешевле всех</td><td>Второй кандидат; массовая озвучка</td></tr>
+        <tr><td><b>Seed Audio 1.0</b></td><td>Звукоцех: диалоги-мультиспич, эффекты, музыка. Русская речь менее управляемая</td><td>Музыка, SFX, диалоги</td></tr>
+      </table>
+    </div></div>
+    <div class="shell rv" style="margin-top:18px;"><div class="core">
       <ul class="steps">
-        <li class="step"><input type="checkbox" id="w1"><label for="w1">Найдите Employees / Writer<span class="hint">Вызов через «/» в поле ввода или через меню</span></label></li>
-        <li class="step"><input type="checkbox" id="w2"><label for="w2">Дайте задачу из рамки ниже — тема из вашей ниши</label></li>
-        <li class="step"><input type="checkbox" id="w3"><label for="w3">Разберите ответ по косточкам: где хук? где нарастание? где CTA?</label></li>
-        <li class="step"><input type="checkbox" id="w4"><label for="w4">Правило коротких роликов: <b>хук решает всё в первые 2 секунды</b> — зритель либо остался, либо ушёл</label></li>
+        <li class="step"><input type="checkbox" id="a1"><label for="a1"><b>Слепой тест:</b> возьмите первую фразу вашего сценария (хук)</label></li>
+        <li class="step"><input type="checkbox" id="a2"><label for="a2">Озвучьте её тремя моделями: <kbd class="ui">Eleven V3</kbd>, <kbd class="ui">Qwen</kbd>, <kbd class="ui">Seed Audio 1.0</kbd></label></li>
+        <li class="step"><input type="checkbox" id="a3"><label for="a3">Прослушайте подряд, не глядя на названия: какая звучит естественнее?</label></li>
+        <li class="step"><input type="checkbox" id="a4"><label for="a4">Зафиксируйте фаворита — это кандидат в «голос ролика»<span class="hint">Скорее всего им окажется Eleven V3 или Qwen — но выбираем ушами</span></label></li>
       </ul>
     </div></div>
-    <div class="shell prompt rv"><div class="core">
-      <div class="prompt-top">
-        <span>Задача для Writer</span>
-        <button class="copy-btn" data-copy="pr1">окопировать <span class="ico">→</span></button>
-      </div>
-      <pre id="pr1">Напиши сценарий вертикального видео до 30 секунд для соцсетей
-медицинского центра. Тема: «Почему нельзя откладывать визит
-к врачу». Формат: закадровый голос + мультяшный персонаж-маскот.
-отруктура: цепляющий хук в первые 2 секунды, 3–4 короткие сцены,
-призыв к действию в конце. Тон: тёплый, без запугивания.</pre>
-    </div></div>
     <figure class="shell shot rv"><div class="core">
-      <img src="assets/lesson-05/01-writer.png" alt="Writer в Supercomputer" onerror="this.closest('.shot').classList.add('missing')">
-      <div class="ph"><span>📷 скриншот: 01-writer.png — Writer в Supercomputer</span></div>
-      <figcaption>Employees: Writer за работой</figcaption>
+      <img src="assets/lesson-05/01-audio.png" alt="Панель Audio" onerror="this.closest('.shot').classList.add('missing')">
+      <div class="ph"><span>📷 скриншот: 01-audio.png — панель Audio с моделями</span></div>
+      <figcaption>Панель Audio — модели озвучки</figcaption>
     </div></figure>
   </section>
 
   <section>
-    <div class="part-head rv"><span class="no">Часть 3 · 15 минут</span><h2>Ваш скилл-сценарист из примера</h2></div>
-    <p class="part-sub rv">Хороший сценарий можно превратить в методику — и больше никогда не начинать с нуля.</p>
+    <div class="part-head rv"><span class="no">Часть 3 · 12 минут</span><h2>Seed Audio — ваш звукоцех</h2></div>
+    <p class="part-sub rv">Закадр мы доверили Eleven V3 / Qwen, а вот всё остальное звуковое — стихия Seed Audio.</p>
     <div class="shell rv"><div class="core">
       <ul class="steps">
-        <li class="step"><input type="checkbox" id="sk1"><label for="sk1">Откройте ролик, сценарий которого вам нравится (из «до урока»)</label></li>
-        <li class="step"><input type="checkbox" id="sk2"><label for="sk2">Перескажите его текст в Supercomputer (или вставьте субтитры) с командой из рамки</label></li>
-        <li class="step"><input type="checkbox" id="sk3"><label for="sk3">Проверьте методику: попросите новый сценарий по ней<span class="hint">Та же тема, другая структура? Значит, методика работает</span></label></li>
-        <li class="step"><input type="checkbox" id="sk4"><label for="sk4">оохраните: «Запомни методику "Мой сценарист" и применяй, когда я прошу сценарий»</label></li>
+        <li class="step"><input type="checkbox" id="s1"><label for="s1"><b>Мультиспич</b> — диалог двух голосов одной генерацией, формат в рамке ниже</label></li>
+        <li class="step"><input type="checkbox" id="s2"><label for="s2"><b>Звуковой эффект</b> — опишите звук текстом: «звонок в дверь клиники, мягкий, двойной»</label></li>
+        <li class="step"><input type="checkbox" id="s3"><label for="s3"><b>Музыка</b> — короткий фоновый трек: «лёгкая тёплая фоновая музыка, укулеле и пиано, 20 секунд, без вокала»</label></li>
+        <li class="step"><input type="checkbox" id="s4"><label for="s4">Диалоги удобнее готовить в Supercomputer — он расставит теги голосов сам</label></li>
       </ul>
     </div></div>
     <div class="shell prompt rv"><div class="core">
       <div class="prompt-top">
-        <span>Команда «сделай методику из примера»</span>
-        <button class="copy-btn" data-copy="pr2">окопировать <span class="ico">→</span></button>
+        <span>Формат мультиспич-диалога</span>
+        <button class="copy-btn" data-copy="pr1">Скопировать <span class="ico">→</span></button>
       </div>
-      <pre id="pr2">Вот сценарий ролика, который мне нравится. Разбери его на приёмы:
-структура, длина фраз, как построен хук, как сделан переход к CTA.
-Преврати эти приёмы в методику «Мой сценарист» — чек-лист правил,
-по которому ты будешь писать мне сценарии коротких роликов.</pre>
-    </div></div>
-  </section>
-
-  <section>
-    <div class="part-head rv"><span class="no">Часть 4 · 10 минут</span><h2>Память: скиллы работают сами</h2></div>
-    <div class="shell rv"><div class="core">
-      <ul class="steps">
-        <li class="step"><input type="checkbox" id="m1"><label for="m1">Убедитесь, что скилл Kling 3.0 с урока 4 в памяти — он понадобится в правилах</label></li>
-        <li class="step"><input type="checkbox" id="m2"><label for="m2">Отправьте главную настройку памяти из рамки ниже</label></li>
-        <li class="step"><input type="checkbox" id="m3"><label for="m3">Проверка в <b>новом чате</b>: попросите промпт картинки без упоминания методики — применилась сама?</label></li>
-      </ul>
-    </div></div>
-    <div class="shell prompt rv"><div class="core">
-      <div class="prompt-top">
-        <span>Настройка памяти · 4 правила</span>
-        <button class="copy-btn" data-copy="pr3">окопировать <span class="ico">→</span></button>
-      </div>
-      <pre id="pr3">Запомни мои рабочие правила:
-1. Когда я прошу промпт для картинки — применяй методику Image Prompter.
-2. Когда я прошу промпт для видео — применяй методику Kling 3.0.
-3. Когда я прошу сценарий — применяй методику «Мой сценарист».
-4. Перед видео-генерацией напоминай мне модель и цену.</pre>
+      <pre id="pr1">[Голос 1, женский, тёплый]: Доктор, а это больно?
+[Голос 2, мужской, спокойный]: Совсем нет. Вы даже не заметите.</pre>
     </div></div>
     <figure class="shell shot rv"><div class="core">
-      <img src="assets/lesson-05/02-memory.png" alt="Правила в Memory" onerror="this.closest('.shot').classList.add('missing')">
-      <div class="ph"><span>📷 скриншот: 02-memory.png — правила в Memory</span></div>
-      <figcaption>Memory: рабочие правила сохранены</figcaption>
+      <img src="assets/lesson-05/02-seedaudio.png" alt="Настройки Seed Audio" onerror="this.closest('.shot').classList.add('missing')">
+      <div class="ph"><span>📷 скриншот: 02-seedaudio.png — настройки Seed Audio</span></div>
+      <figcaption>Seed Audio: речь, диалоги, эффекты, музыка</figcaption>
     </div></figure>
   </section>
 
   <section>
-    <div class="part-head rv"><span class="no">Часть 5 · 13 минут</span><h2>Практика: сценарий + сториборд</h2></div>
+    <div class="part-head rv"><span class="no">Часть 4 · 10 минут</span><h2>Чей голос: клон или библиотека</h2></div>
     <div class="shell rv"><div class="core">
       <ul class="steps">
-        <li class="step"><input type="checkbox" id="st1"><label for="st1">Выберите тему ролика ≤30 сек из вашей работы (можно тему из части 2)</label></li>
-        <li class="step"><input type="checkbox" id="st2"><label for="st2">Попросите сценарий по «Моему сценаристу», доведите правками: «хук короче», «CTA мягче»</label></li>
-        <li class="step"><input type="checkbox" id="st3"><label for="st3">оториборд — таблица прямо в чате, командой из рамки</label></li>
-        <li class="step"><input type="checkbox" id="st4"><label for="st4">огенерируйте кадры 2–3 первых сцен руками в <kbd class="ui">Image</kbd> (безлимит, с вашими элементами)</label></li>
+        <li class="step"><input type="checkbox" id="v1"><label for="v1"><b>Библиотека голосов:</b> прослушайте 2–3 русских кандидата (я подскажу отобранные)<span class="hint">Честно: у части готовых голосов заметен акцент — поэтому выбираем ушами</span></label></li>
+        <li class="step"><input type="checkbox" id="v2"><label for="v2"><b>Клонирование своего голоса</b> — 40 кредитов, один раз: записываете образец, дальше «ваш» голос доступен во всей экосистеме<span class="hint">Решение за вами: бренд-войс клиники может быть и синтетическим, и вашим</span></label></li>
+        <li class="step"><input type="checkbox" id="v3"><label for="v3">Обзорно, на будущее: <b>смена голоса</b> в готовом видео и <b>перевод видео</b> — тоже здесь</label></li>
       </ul>
     </div></div>
-    <div class="shell prompt rv"><div class="core">
-      <div class="prompt-top">
-        <span>Команда сториборда</span>
-        <button class="copy-btn" data-copy="pr4">окопировать <span class="ico">→</span></button>
-      </div>
-      <pre id="pr4">Разбей этот сценарий на сцены. Для каждой сцены сделай строку
-таблицы: номер · текст закадра · что в кадре (с участием
-[@персонаж]) · готовый промпт для картинки по Image Prompter.
-Кадры без надписей — текст добавим на монтаже.</pre>
-    </div></div>
     <figure class="shell shot rv"><div class="core">
-      <img src="assets/lesson-05/03-storyboard.png" alt="оториборд в чате" onerror="this.closest('.shot').classList.add('missing')">
-      <div class="ph"><span>📷 скриншот: 03-storyboard.png — сториборд в чате</span></div>
-      <figcaption>оториборд: сцены, закадр, промпты — одной таблицей</figcaption>
+      <img src="assets/lesson-05/03-voices.png" alt="Библиотека голосов" onerror="this.closest('.shot').classList.add('missing')">
+      <div class="ph"><span>📷 скриншот: 03-voices.png — библиотека голосов</span></div>
+      <figcaption>Библиотека голосов и клонирование</figcaption>
     </div></figure>
+  </section>
+
+  <section>
+    <div class="part-head rv"><span class="no">Часть 5 · 10 минут</span><h2>Озвучиваем эксплейнер</h2></div>
+    <div class="shell rv"><div class="core">
+      <ul class="steps">
+        <li class="step"><input type="checkbox" id="o1"><label for="o1">Разбейте сценарий на реплики по сценам<span class="hint">Если сториборд готов — они уже разбиты</span></label></li>
+        <li class="step"><input type="checkbox" id="o2"><label for="o2">Озвучьте выбранным голосом первые 3–4 сцены: одна сцена = одна генерация</label></li>
+        <li class="step"><input type="checkbox" id="o3"><label for="o3">Слушайте каждую сразу: темп, ударения, паузы. Не то — правим текст и перегенерируем<span class="hint">0.3 кр за реплику — можно позволить</span></label></li>
+        <li class="step"><input type="checkbox" id="o4"><label for="o4">Складывайте готовые дорожки в одно место — папка «Озвучка эксплейнера»</label></li>
+      </ul>
+    </div></div>
     <div class="takeaway rv" style="margin-top:20px;">
       <span class="mark">!</span>
-      <p><b>Кадры — без надписей.</b> Весь текст (заголовки, штампы, субтитры) добавим на монтаже: так он всегда читаемый и его можно править без перегенерации.</p>
+      <p><b>Ролик обрёл голос.</b> На следующем уроке начинаем сборку: кадры + движение + ваш звук.</p>
     </div>
   </section>
 
@@ -400,26 +377,28 @@
     <div class="shell rv" style="margin-top:18px;"><div class="core">
       <div class="hw-item">
         <span class="n">1</span>
-        <div><h4>Доведите сториборд тренировочного ролика</h4><p>≤30 сек: все сцены, все промпты.</p></div>
+        <div><h4>Полная закадровая дорожка эксплейнера</h4><p>Все сцены озвучены выбранным голосом, файлы по порядку.</p></div>
       </div>
       <div class="hw-item">
         <span class="n">2</span>
-        <div><h4>Главное: сценарий полного эксплейнера 45–60 сек</h4><p>10–14 сцен по структуре «хук → мифы/возражения → развенчание → CTA». Это сценарий вашего финального ролика — работаем по нему с урока 6.</p></div>
+        <div><h4>Фоновая музыка</h4><p>1–2 варианта через Seed Audio — или скажите, подберём стоковую. По желанию — один звуковой эффект для акцента.</p></div>
       </div>
       <div class="hw-item">
         <span class="n">3</span>
-        <div><h4>оториборд эксплейнера</h4><p>Таблица сцен с промптами. Кадры генерировать пока не надо.</p></div>
+        <div><h4>Оживите 1–2 кадра сториборда</h4><p>Kling 3.0 (~15 кр). Промпт движения попросите у Supercomputer — методика Kling 3.0 в памяти с урока 3, проверим её в бою. К сборке у вас будет набита видео-рука.</p></div>
       </div>
       <div class="hw-item">
         <span class="n">4</span>
-        <div><h4>Пришлите оба документа мне</h4><p>оогласуем сценарий до урока 5 — на нём начнём озвучку.</p></div>
+        <div><h4>Пришлите дорожки и клипы мне</h4><p>Проверю темп и стыки до урока сборки.</p></div>
       </div>
       <div class="hw-check">
-        <h4>Чек готовности к уроку 6</h4>
+        <h4>Чек готовности к уроку 6 · сборка</h4>
         <ul class="steps">
-          <li class="step"><input type="checkbox" id="h1"><label for="h1">Память: 4 правила работают в новом чате</label></li>
-          <li class="step"><input type="checkbox" id="h2"><label for="h2">оценарий эксплейнера 45–60 сек готов и согласован со мной</label></li>
-          <li class="step"><input type="checkbox" id="h3"><label for="h3">оториборд эксплейнера: 10–14 сцен с промптами</label></li>
+          <li class="step"><input type="checkbox" id="h1"><label for="h1">Все сцены озвучены, порядок ясен</label></li>
+          <li class="step"><input type="checkbox" id="h2"><label for="h2">Музыка выбрана (сгенерирована или согласована)</label></li>
+          <li class="step"><input type="checkbox" id="h3"><label for="h3">1–2 клипа сториборда готовы, промпты движения — через память</label></li>
+          <li class="step"><input type="checkbox" id="h4"><label for="h4">Сториборд эксплейнера финален: сцены + закадр + промпты</label></li>
+          <li class="step"><input type="checkbox" id="h5"><label for="h5">Всё отправлено мне</label></li>
         </ul>
       </div>
     </div></div>
@@ -438,8 +417,8 @@
     btn.addEventListener('click', async ()=>{
       const t = document.getElementById(btn.dataset.copy).innerText;
       try{ await navigator.clipboard.writeText(t);
-        btn.childNodes[0].textContent='окопировано ';
-        setTimeout(()=>{btn.childNodes[0].textContent='окопировать ';},1800);
+        btn.childNodes[0].textContent='Скопировано ';
+        setTimeout(()=>{btn.childNodes[0].textContent='Скопировать ';},1800);
       }catch(e){}
     });
   });

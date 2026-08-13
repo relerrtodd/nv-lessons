@@ -1,10 +1,8 @@
 ﻿<!DOCTYPE html>
-<html lang="ru">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Урок 6 · Audio: голос вашего ролика</title>
+<html lang="ru"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GPT Image 2 · Референс-борды — гид на русском</title>
 <style>
 @font-face {
   font-family: 'Piazzolla';
@@ -104,325 +102,413 @@
 }
 
   :root{
-    --paper:#FBF9F4; --card:#FFFDFA; --ink:#221D16; --ink-2:#6E6659; --ink-3:#A39B8B;
-    --line:rgba(34,29,22,.08); --line-2:rgba(34,29,22,.14);
-    --sage:#7A4E9E; --sage-soft:#F0EAF6; --clay:#B4653F; --clay-soft:#F7EDE6;
-    --shadow:0 24px 48px -28px rgba(34,29,22,.18);
-    --ease:cubic-bezier(0.32,0.72,0,1);
-    --r-out:26px; --r-in:20px;
+    --bg:#0b0b0d;
+    --bg-panel:#121215;
+    --bg-code:#0e0e11;
+    --line:#232328;
+    --neon:#f2d21f;
+    --neon-dim:rgba(242,210,31,.35);
+    --text:#e8e6df;
+    --text-dim:#9a978e;
+    --text-faint:#66645c;
   }
-  *{box-sizing:border-box; margin:0; padding:0;}
-  html{scroll-behavior:smooth;}
-  body{font-family:'Golos Text','Segoe UI',system-ui,sans-serif; background:var(--paper); color:var(--ink);
-    line-height:1.65; font-size:16px; -webkit-font-smoothing:antialiased;}
-  body::before{content:''; position:fixed; inset:0; z-index:40; pointer-events:none; opacity:.028;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");}
-  .glow{position:fixed; top:-220px; right:-180px; width:640px; height:640px; z-index:0; pointer-events:none;
-    background:radial-gradient(circle at center, rgba(122,78,158,.09), transparent 62%);}
-  .page{max-width:780px; margin:0 auto; padding:72px 28px 96px; position:relative; z-index:1;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Golos Text','Inter',system-ui,sans-serif;
+    font-size:16px;
+    line-height:1.65;
+    position:relative;
+  }
+  /* film grain */
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:999;opacity:.05;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .frame{max-width:960px;margin:0 auto;padding:0 28px 120px;}
 
-  .eyebrow{display:inline-flex; align-items:center; gap:8px; border:1px solid var(--line-2); border-radius:999px;
-    padding:5px 14px; font-size:10.5px; font-weight:600; letter-spacing:.22em; text-transform:uppercase; color:var(--ink-2);}
-  .eyebrow .dot{width:6px; height:6px; border-radius:50%; background:var(--sage);}
-  h1{font-family:'Piazzolla',Georgia,serif; font-weight:700; font-size:clamp(32px,5.6vw,48px); line-height:1.08;
-    letter-spacing:-0.015em; margin:22px 0 18px;}
-  h1 .hl{color:var(--sage);}
-  .lede{font-size:17.5px; color:var(--ink-2); max-width:600px;}
-  .meta{display:flex; gap:10px; flex-wrap:wrap; margin-top:26px;}
-  .chip{border:1px solid var(--line-2); background:var(--card); border-radius:999px; padding:7px 16px;
-    font-size:13.5px; color:var(--ink-2); box-shadow:0 1px 0 rgba(255,255,255,.6) inset;}
-  .rule{height:1px; background:var(--line); margin:56px 0;}
+  /* ---------- header ---------- */
+  header{
+    padding:72px 0 48px;
+    border-bottom:1px solid var(--line);
+    position:relative;
+  }
+  header::after{
+    content:"";position:absolute;left:0;bottom:-1px;width:120px;height:1px;
+    background:var(--neon);box-shadow:0 0 12px var(--neon-dim);
+  }
+  .kicker{
+    font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--neon);margin-bottom:20px;
+  }
+  h1{
+    font-family:'Golos Text','Archivo',system-ui,sans-serif;font-stretch:75%;font-weight:800;
+    font-size:clamp(40px,7vw,68px);line-height:1.02;letter-spacing:-.01em;
+    text-transform:uppercase;
+  }
+  h1 .thin{color:var(--text-faint)}
+  .lede{margin-top:22px;font-size:18px;color:var(--text-dim);max-width:640px}
 
-  section{margin-bottom:64px;}
-  .part-head{margin-bottom:8px;}
-  .part-head .no{display:block; font-size:11px; font-weight:600; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-3); margin-bottom:8px;}
-  h2{font-family:'Piazzolla',Georgia,serif; font-weight:600; font-size:clamp(24px,3.6vw,31px); line-height:1.15; letter-spacing:-0.01em;}
-  .part-sub{color:var(--ink-2); margin:10px 0 26px; max-width:620px;}
-  .part-sub b{font-weight:600; color:var(--ink);}
+  /* ---------- nav ---------- */
+  nav{
+    display:flex;flex-wrap:wrap;gap:8px;padding:24px 0;
+    border-bottom:1px solid var(--line);
+  }
+  nav a{
+    font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.06em;
+    color:var(--text-dim);text-decoration:none;border:1px solid var(--line);
+    padding:7px 13px;border-radius:3px;transition:.15s;
+  }
+  nav a:hover,nav a:focus-visible{color:var(--neon);border-color:var(--neon-dim);outline:none}
+  nav a.new{color:var(--neon);border-color:var(--neon-dim)}
 
-  .shell{background:rgba(34,29,22,.035); border:1px solid var(--line); border-radius:var(--r-out); padding:7px; box-shadow:var(--shadow);}
-  .core{background:var(--card); border:1px solid rgba(34,29,22,.05); border-radius:var(--r-in); padding:26px 28px;
-    box-shadow:inset 0 1px 1px rgba(255,255,255,.8);}
-  .shell + .shell{margin-top:18px;}
+  /* ---------- generic sections ---------- */
+  section{padding:56px 0 8px}
+  h2{
+    font-family:'Golos Text','Archivo',system-ui,sans-serif;font-stretch:75%;font-weight:700;
+    font-size:26px;text-transform:uppercase;letter-spacing:.02em;margin-bottom:18px;
+  }
+  p{color:var(--text-dim);margin-bottom:14px;max-width:720px}
+  p strong,li strong{color:var(--text)}
+  .callout{
+    border:1px solid var(--line);border-left:2px solid var(--neon);
+    background:var(--bg-panel);padding:16px 20px;border-radius:4px;
+    margin:22px 0;color:var(--text-dim);max-width:720px;
+  }
+  .callout::before{content:"✦";color:var(--neon);margin-right:10px}
 
-  .outcomes .core{display:grid; grid-template-columns:1fr 1fr 1fr; gap:0;}
-  .outcome{padding:6px 22px 6px 0;}
-  .outcome + .outcome{border-left:1px solid var(--line); padding-left:22px;}
-  .outcome .k{font-family:'Piazzolla',Georgia,serif; font-weight:600; font-size:24px; color:var(--sage); line-height:1;}
-  .outcome p{font-size:14px; color:var(--ink-2); margin-top:8px;}
-  .outcome b{color:var(--ink); font-weight:600;}
-  @media(max-width:680px){
-    .outcomes .core{grid-template-columns:1fr;}
-    .outcome + .outcome{border-left:none; border-top:1px solid var(--line); padding:16px 0 6px; margin-top:12px;}
+  /* steps */
+  .steps{list-style:none;counter-reset:st;margin:26px 0;max-width:720px}
+  .steps li{
+    counter-increment:st;position:relative;padding:0 0 26px 62px;
+  }
+  .steps li::before{
+    content:counter(st,decimal-leading-zero);
+    position:absolute;left:0;top:2px;
+    font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--neon);
+    border:1px solid var(--neon-dim);border-radius:3px;padding:4px 8px;
+  }
+  .steps li::after{
+    content:"";position:absolute;left:19px;top:34px;bottom:6px;width:1px;background:var(--line);
+  }
+  .steps li:last-child::after{display:none}
+  .steps b{display:block;color:var(--text);font-weight:600;margin-bottom:2px}
+  .steps span{color:var(--text-dim);font-size:15px}
+
+  .tips{list-style:none;max-width:720px}
+  .tips li{padding:10px 0 10px 24px;position:relative;color:var(--text-dim);border-bottom:1px dashed var(--line)}
+  .tips li::before{content:"—";position:absolute;left:0;color:var(--neon)}
+
+  /* ---------- board cards ---------- */
+  .board{
+    margin-top:64px;border:1px solid var(--line);border-radius:6px;
+    background:var(--bg-panel);overflow:hidden;position:relative;
+  }
+  .board.highlight{border-color:var(--neon-dim);box-shadow:0 0 34px rgba(242,210,31,.06)}
+  .board-head{
+    padding:28px 30px 20px;border-bottom:1px solid var(--line);
+    display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;
+  }
+  .board-emoji{font-size:26px}
+  .board-head h3{
+    font-family:'Golos Text','Archivo',system-ui,sans-serif;font-stretch:75%;font-weight:800;
+    font-size:30px;text-transform:uppercase;letter-spacing:.02em;
+  }
+  .badge-new{
+    font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;
+    color:#0b0b0d;background:var(--neon);border-radius:3px;padding:4px 9px;
+    text-transform:uppercase;align-self:center;
+  }
+  .board-body{padding:24px 30px 30px}
+  .board-body>p{max-width:100%}
+  .bestfor{
+    font-size:14px;color:var(--text-faint);margin:10px 0 22px;
+  }
+  .bestfor b{color:var(--text-dim);font-weight:600}
+
+  .panels{width:100%;border-collapse:collapse;margin-bottom:26px;font-size:14.5px}
+  .panels td{
+    padding:11px 14px;border:1px solid var(--line);vertical-align:top;color:var(--text-dim);
+  }
+  .panels td:first-child{
+    white-space:nowrap;font-family:'JetBrains Mono',monospace;font-size:12px;
+    color:var(--neon);width:1%;letter-spacing:.05em;
   }
 
-  .steps{list-style:none;}
-  .step{display:flex; gap:16px; padding:13px 0; align-items:flex-start;}
-  .step + .step{border-top:1px solid var(--line);}
-  .step input[type=checkbox]{appearance:none; -webkit-appearance:none; flex-shrink:0; margin-top:3px;
-    width:21px; height:21px; border-radius:7px; border:1.5px solid var(--line-2); background:var(--card);
-    cursor:pointer; position:relative; transition:all .45s var(--ease);}
-  .step input[type=checkbox]:checked{background:var(--sage); border-color:var(--sage);}
-  .step input[type=checkbox]:checked::after{content:''; position:absolute; left:6px; top:2.5px; width:5px; height:10px;
-    border:solid #fff; border-width:0 2px 2px 0; transform:rotate(42deg);}
-  .step label{cursor:pointer; font-size:15.5px;}
-  .step .hint{display:block; font-size:13.5px; color:var(--ink-3); margin-top:3px;}
-  .step b{font-weight:600;}
-  kbd.ui{font-family:'Golos Text',sans-serif; font-size:13px; font-weight:600; color:var(--ink);
-    background:var(--sage-soft); border:1px solid rgba(122,78,158,.28); border-radius:7px; padding:1.5px 9px; white-space:nowrap;}
-
-  table.md{width:100%; border-collapse:collapse; font-size:14px;}
-  table.md th{font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-3); text-align:left; padding:0 12px 10px 0; font-weight:600;}
-  table.md td{padding:11px 12px 11px 0; border-top:1px solid var(--line); vertical-align:top;}
-  table.md td b{font-weight:600;}
-
-  .prompt .core{padding:0; overflow:hidden;}
-  .prompt-top{display:flex; align-items:center; justify-content:space-between; gap:12px;
-    padding:13px 20px; border-bottom:1px solid var(--line); background:linear-gradient(180deg,rgba(122,78,158,.06),transparent);}
-  .prompt-top span{font-size:11px; font-weight:600; letter-spacing:.18em; text-transform:uppercase; color:var(--sage);}
-  .copy-btn{display:inline-flex; align-items:center; gap:8px; border:1px solid var(--line-2); background:var(--card);
-    border-radius:999px; padding:6px 7px 6px 15px; font-family:'Golos Text',sans-serif; font-size:12.5px; font-weight:600;
-    color:var(--ink); cursor:pointer; transition:all .5s var(--ease);}
-  .copy-btn:hover{transform:translateY(-1px); box-shadow:0 8px 18px -10px rgba(34,29,22,.3);}
-  .copy-btn:active{transform:scale(.97);}
-  .copy-btn .ico{width:22px; height:22px; border-radius:50%; background:var(--sage-soft); display:inline-flex;
-    align-items:center; justify-content:center; font-size:11px; color:var(--sage); transition:transform .5s var(--ease);}
-  .copy-btn:hover .ico{transform:translate(1px,-1px);}
-  .prompt pre{font-family:'JetBrains Mono',Consolas,monospace; font-size:13.5px; line-height:1.7;
-    padding:20px 24px; white-space:pre-wrap; color:#3A3428;}
-
-  .shot{margin-top:20px;}
-  .shot .core{padding:8px;}
-  .shot img{display:block; width:100%; border-radius:calc(var(--r-in) - 6px);}
-  .shot .ph{display:none;}
-  .shot.missing img{display:none;}
-  .shot.missing .ph{display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px;
-    min-height:150px; border:1.5px dashed var(--line-2); border-radius:calc(var(--r-in) - 6px);
-    color:var(--ink-3); font-size:13px;}
-  .shot figcaption{font-size:12.5px; color:var(--ink-3); text-align:center; padding:10px 0 4px;}
-
-  .takeaway{background:linear-gradient(135deg,var(--sage-soft),#F5F2E9); border:1px solid rgba(122,78,158,.22);
-    border-radius:var(--r-out); padding:24px 28px; display:flex; gap:16px; align-items:flex-start; box-shadow:var(--shadow);}
-  .takeaway .mark{width:34px; height:34px; border-radius:12px; background:rgba(122,78,158,.14); color:var(--sage);
-    display:inline-flex; align-items:center; justify-content:center; font-size:16px; font-weight:600; flex-shrink:0;}
-  .takeaway p{font-size:15.5px;}
-  .takeaway b{font-weight:600;}
-
-  .hw-item{display:flex; gap:18px; padding:16px 0;}
-  .hw-item + .hw-item{border-top:1px solid var(--line);}
-  .hw-item .n{width:30px; height:30px; border-radius:10px; background:var(--clay-soft); color:var(--clay);
-    display:inline-flex; align-items:center; justify-content:center; font-weight:600; font-size:15px; flex-shrink:0; margin-top:2px;}
-  .hw-item h4{font-size:15.5px; font-weight:600; margin-bottom:3px;}
-  .hw-item p{font-size:14.5px; color:var(--ink-2);}
-  .hw-check{margin-top:22px; border-top:1px dashed var(--line-2); padding-top:20px;}
-  .hw-check h4{font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-3); margin-bottom:12px;}
-
-  .foot{margin-top:80px; text-align:center; color:var(--ink-3); font-size:12.5px;}
-  .foot .fleur{font-size:18px; color:var(--sage); margin-bottom:8px;}
-
-  @media screen{
-    .rv{opacity:0; transform:translateY(26px); filter:blur(4px);
-      transition:opacity .9s var(--ease), transform .9s var(--ease), filter .9s var(--ease);}
-    .rv.in{opacity:1; transform:none; filter:none;}
+  .prompt-label{
+    display:flex;justify-content:space-between;align-items:center;gap:14px;
+    font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--text-dim);margin-bottom:10px;
   }
-  @media (prefers-reduced-motion:reduce){.rv{opacity:1; transform:none; filter:none; transition:none;}}
-  @media print{
-    body{background:#fff; font-size:13px;}
-    body::before,.glow{display:none;}
-    .page{max-width:100%; padding:24px 8px;}
-    .shell,.takeaway{box-shadow:none; break-inside:avoid;}
-    .copy-btn{display:none;}
-    section{margin-bottom:36px;}
-    .rule{margin:28px 0;}
-    -webkit-print-color-adjust:exact; print-color-adjust:exact;
+  .copy-btn{
+    font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.06em;
+    color:var(--neon);background:none;border:1px solid var(--neon-dim);
+    border-radius:3px;padding:6px 14px;cursor:pointer;transition:.15s;
   }
-  :focus-visible{outline:2.5px solid var(--sage); outline-offset:3px; border-radius:6px;}
+  .copy-btn:hover,.copy-btn:focus-visible{background:rgba(242,210,31,.08);outline:none}
+  .prompt{
+    background:var(--bg-code);border:1px solid var(--line);border-radius:4px;
+    padding:20px 22px;font-family:'JetBrains Mono',monospace;font-size:13px;
+    line-height:1.7;color:#c9c7bd;white-space:pre-wrap;max-height:340px;overflow:auto;
+  }
+  .prompt-note{font-size:13px;color:var(--text-faint);margin-top:10px}
+
+  /* ---------- combos table ---------- */
+  .combos{width:100%;border-collapse:collapse;margin-top:8px;font-size:15px}
+  .combos th{
+    text-align:left;font-family:'JetBrains Mono',monospace;font-size:12px;
+    letter-spacing:.12em;text-transform:uppercase;color:var(--text-faint);
+    padding:10px 14px;border-bottom:1px solid var(--neon-dim);
+  }
+  .combos td{padding:13px 14px;border-bottom:1px solid var(--line);color:var(--text-dim);vertical-align:top}
+  .combos td:first-child{color:var(--text);font-weight:500;white-space:nowrap}
+  .arrow{color:var(--neon)}
+
+  footer{
+    margin-top:80px;padding-top:26px;border-top:1px solid var(--line);
+    font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text-faint);
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
+  }
+
+  @media (max-width:640px){
+    .frame{padding:0 18px 90px}
+    .board-head,.board-body{padding-left:18px;padding-right:18px}
+    .combos td:first-child{white-space:normal}
+  }
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 </style>
 </head>
 <body>
-<div class="glow"></div>
-<div class="page">
+<div class="frame">
 
-  <header>
-    <span class="eyebrow rv"><span class="dot"></span>Курс нейровидео · Урок пятый</span>
-    <h1 class="rv">Audio: голос<br><span class="hl">вашего ролика</span></h1>
-    <p class="lede rv">Сегодня эксплейнер обретает голос: сравниваем три модели озвучки ушами, пробуем диалоги, эффекты и музыку — и начинаем записывать закадр по вашему сценарию.</p>
-    <div class="meta rv">
-      <span class="chip">60 минут</span>
-      <span class="chip">Онлайн · Zoom</span>
-      <span class="chip">Озвучка — копейки (0.3 кр/реплика)</span>
-    </div>
-  </header>
+<header>
+  <div class="kicker">GPT Image 2 · Система из 7 бордов</div>
+  <h1>Референс-<br>борды <span class="thin">GPT Image&nbsp;2</span></h1>
+  <p class="lede">Превратите любое изображение в производственный референс-документ одним промптом.</p>
+</header>
 
-  <div class="rule"></div>
+<nav aria-label="Разделы">
+  <a href="#shot">🎬 Shot</a>
+  <a href="#object">⚔️ Object</a>
+  <a href="#location">🌆 Location</a>
+  <a href="#pose">🧍 Pose</a>
+  <a href="#character">👤 Character</a>
+  <a href="#face" class="new">🪞 Face — новый</a>
+  <a href="#creature">🦎 Creature</a>
+  <a href="#combos">⛓ Комбинации</a>
+</nav>
 
-  <section>
-    <span class="eyebrow rv"><span class="dot"></span>К концу урока у вас будет</span>
-    <div class="shell outcomes rv" style="margin-top:18px;">
-      <div class="core">
-        <div class="outcome"><div class="k">01</div><p><b>Голос ролика</b> — выбран честным сравнением трёх моделей</p></div>
-        <div class="outcome"><div class="k">02</div><p><b>Диалоги, эффекты, музыка</b> — через Seed Audio</p></div>
-        <div class="outcome"><div class="k">03</div><p><b>Начатая озвучка</b> вашего эксплейнера</p></div>
-      </div>
-    </div>
-  </section>
+<section id="intro">
+  <h2>Что это за система</h2>
+  <p>Референс-борды — это структурированные визуальные документы, которые дают ИИ-моделям <strong>единый источник истины</strong>: фиксируют лицо персонажа, пропорции объекта, атмосферу локации — чтобы каждая генерация оставалась консистентной. <strong>GPT Image&nbsp;2</strong> особенно хорошо читает и воспроизводит такие плотные визуальные раскладки.</p>
+  <p>В гиде — 7 типов бордов: <strong>Shot Board, Object Board, Location Board, Pose Board, Character Board, Face Board и Creature Board.</strong> Каждый берёт одно загруженное изображение и разворачивает его в полноценный производственный референс-лист.</p>
+  <div class="callout">Все борды строятся по одной технике: прикрепите исходное фото, загрузите его в GPT Image&nbsp;2 в любом удобном сервисе, вставьте промпт, сгенерируйте. Всю тяжёлую работу делает промпт.</div>
+</section>
 
-  <section>
-    <div class="part-head rv"><span class="no">До урока</span><h2>Самостоятельно</h2></div>
-    <div class="shell rv"><div class="core">
-      <ul class="steps">
-        <li class="step"><input type="checkbox" id="b1"><label for="b1">Сценарий эксплейнера 45–60 сек согласован со мной<span class="hint">Без него урок не имеет смысла — озвучивать будет нечего</span></label></li>
-        <li class="step"><input type="checkbox" id="b2"><label for="b2">Держите текст сценария под рукой (файл или чат)</label></li>
-      </ul>
-    </div></div>
-  </section>
+<section id="howto">
+  <h2>Как сгенерировать референс-борд</h2>
+  <p>Для любого типа борда — одна и та же логика в 4 шага:</p>
+  <ol class="steps">
+    <li><b>Подготовьте исходное фото</b><span>Выберите фото персонажа, объекта, локации или существа. Чем чище и детальнее исходник, тем консистентнее борд.</span></li>
+    <li><b>Откройте GPT Image 2 в удобном сервисе</b><span>Это может быть Higgsfield, непосредственно сам ChatGPT или любой другой сервис с доступом к GPT Image 2.</span></li>
+    <li><b>Загрузите фото в GPT Image 2</b><span>Прикрепите исходное фото как референс к генерации — именно оно станет единым источником истины для всех панелей борда.</span></li>
+    <li><b>Вставьте промпт и запустите генерацию</b><span>Скопируйте полный промпт нужного борда из этого гида, вставьте в поле промпта и сгенерируйте.</span></li>
+  </ol>
+  <div class="callout">Промпт длинный — и это намеренно. Каждая деталь говорит модели, какие панели генерировать и как их разместить. Не сокращайте его.</div>
+</section>
 
-  <section>
-    <div class="part-head rv"><span class="no">Часть 1 · 7 минут</span><h2>Разбор домашки</h2></div>
-    <div class="shell rv"><div class="core">
-      <ul class="steps">
-        <li class="step"><input type="checkbox" id="p1a"><label for="p1a">Финальный прогон сценария вслух: читается легко? Спотыкаетесь — упрощаем фразу</label></li>
-        <li class="step"><input type="checkbox" id="p1b"><label for="p1b">Правило хронометража: <b>~2.5 слова в секунду</b>. 60 секунд ≈ 150 слов — проверяем длину</label></li>
-      </ul>
-    </div></div>
-  </section>
+<section id="tips">
+  <h2>Советы профи</h2>
+  <ul class="tips">
+    <li><strong>Исходник решает всё.</strong> Чем чище и детальнее входное фото, тем точнее и консистентнее каждая панель борда.</li>
+    <li>Для персонажей и существ лучше всего работают портретные или квадратные кадры. Для локаций — широкие планы.</li>
+    <li>Если панель не получилась с первого раза — перегенерируйте: у GPT Image 2 есть вариативность. Раскладка может слегка меняться между запусками, содержание при этом остаётся верным.</li>
+    <li>Сначала сделайте Character Board, затем используйте его как исходник для Pose Board — так консистентность накапливается через две генерации.</li>
+    <li>Shot Board — самый мощный инструмент для ИИ-режиссёров: он превращает один ключевой кадр в полный бриф из 12 шотов, готовый для передачи в Seedance.</li>
+  </ul>
+</section>
 
-  <section>
-    <div class="part-head rv"><span class="no">Часть 2 · 18 минут</span><h2>Три модели озвучки</h2></div>
-    <p class="part-sub rv">Панель <b>Audio</b>. Три генератора — у каждого своя роль.</p>
-    <div class="shell rv"><div class="core">
-      <table class="md">
-        <tr><th>Модель</th><th>Характер</th><th>Когда брать</th></tr>
-        <tr><td><b>Eleven V3</b></td><td>Меньше всего акцента в русском</td><td>Главный кандидат на закадровый голос</td></tr>
-        <tr><td><b>Qwen</b></td><td>Почти без акцента, дешевле всех</td><td>Второй кандидат; массовая озвучка</td></tr>
-        <tr><td><b>Seed Audio 1.0</b></td><td>Звукоцех: диалоги-мультиспич, эффекты, музыка. Русская речь менее управляемая</td><td>Музыка, SFX, диалоги</td></tr>
-      </table>
-    </div></div>
-    <div class="shell rv" style="margin-top:18px;"><div class="core">
-      <ul class="steps">
-        <li class="step"><input type="checkbox" id="a1"><label for="a1"><b>Слепой тест:</b> возьмите первую фразу вашего сценария (хук)</label></li>
-        <li class="step"><input type="checkbox" id="a2"><label for="a2">Озвучьте её тремя моделями: <kbd class="ui">Eleven V3</kbd>, <kbd class="ui">Qwen</kbd>, <kbd class="ui">Seed Audio 1.0</kbd></label></li>
-        <li class="step"><input type="checkbox" id="a3"><label for="a3">Прослушайте подряд, не глядя на названия: какая звучит естественнее?</label></li>
-        <li class="step"><input type="checkbox" id="a4"><label for="a4">Зафиксируйте фаворита — это кандидат в «голос ролика»<span class="hint">Скорее всего им окажется Eleven V3 или Qwen — но выбираем ушами</span></label></li>
-      </ul>
-    </div></div>
-    <figure class="shell shot rv"><div class="core">
-      <img src="assets/lesson-06/01-audio.png" alt="Панель Audio" onerror="this.closest('.shot').classList.add('missing')">
-      <div class="ph"><span>📷 скриншот: 01-audio.png — панель Audio с моделями</span></div>
-      <figcaption>Панель Audio — модели озвучки</figcaption>
-    </div></figure>
-  </section>
+<!-- =============================== SHOT =============================== -->
+<article class="board" id="shot">
+  <div class="board-head"><span class="board-emoji">🎬</span><h3>Shot Board</h3></div>
+  <div class="board-body">
+    <p>Разбивает один ключевой кадр на полноценную раскадровку из 12 шотов — с эмоциональными битами, операторскими заметками, непрерывностью света и типами покрытия. Идеален для планирования ИИ-киносцен.</p>
+    <p class="bestfor"><b>Лучше всего подходит для:</b> любого фото персонажа или сцены — ИИ выстроит полную кинематографическую последовательность из одного кадра.</p>
+    <table class="panels">
+      <tbody><tr><td>ПАНЕЛЬ 01</td><td>Последовательность шотов — 12 кадров: общий устанавливающий, вход персонажа, «через плечо» (OTS), крупный план — реакция, вставка-деталь, встречный OTS, двойной средний, трекинг-шот, общий с нижнего ракурса, сверхкрупный — глаза, медленный отъезд, общий — развязка</td></tr>
+      <tr><td>ПАНЕЛЬ 02</td><td>Ключевые эмоциональные биты — 3 драматических крупных плана из последовательности</td></tr>
+      <tr><td>ПАНЕЛЬ 03</td><td>Операторские заметки — объективы, движение, кадрирование, высота камеры (4–5 записей)</td></tr>
+      <tr><td>ПАНЕЛЬ 04</td><td>Непрерывность освещения — 4 кадра, показывающие, как свет развивается по сцене</td></tr>
+      <tr><td>ПАНЕЛЬ 05</td><td>Типы покрытия — общий, средний, крупный, вставка, OTS</td></tr>
+      <tr><td>ПАНЕЛЬ 06</td><td>Цветовая палитра — 6 HEX-свотчей из последовательности</td></tr>
+    </tbody></table>
+    <div class="prompt-label"><span>Промпт — копируйте как есть</span><button class="copy-btn" data-copy="">Скопировать</button></div>
+    <div class="prompt">Create a single high-resolution, densely packed storyboard reference sheet titled "SHOT BOARD" using the attached photo as the single source keyframe. Generate a sequential 12-shot storyboard that breaks the scene into a coherent visual progression — same character(s), same location, same lighting continuity — as if filmed as continuous coverage. All on-image labels in ENGLISH. Editorial storyboard layout with a dark near-black background, thin yellow neon accent light, faint film-grain overlay, and production-grade storyboard UI. The composition should feel structured but flexible: allow the source keyframe, metadata, shot grid, camera notes, and secondary panels to float into different balanced placements rather than locking them into a fixed left-and-right arrangement. Include: A prominent source keyframe with metadata block: SCENE · ACT · SHOT COUNT: 12 · RUNTIME ~30s · SETTING · CHARACTERS · EMOTIONAL ARC · CAMERA STYLE · COLOR SCRIPT · EDIT STYLE. PANEL 01 — SHOT SEQUENCE (12 frames): 01 ESTABLISHING WIDE · 02 CHARACTER ENTERS — MEDIUM · 03 OVER-THE-SHOULDER · 04 CLOSE-UP — REACTION · 05 INSERT — OBJECT DETAIL · 06 COUNTER OTS · 07 TWO-SHOT MEDIUM · 08 TRACKING SHOT · 09 LOW ANGLE WIDE · 10 EXTREME CLOSE-UP — EYES · 11 SLOW PULL-BACK · 12 WIDE — RESOLUTION. PANEL 02 — KEY EMOTIONAL BEATS (3 dramatic close-ups). PANEL 03 — CAMERA NOTES (lens choices, motion, framing, height). PANEL 04 — LIGHTING CONTINUITY (4 frames). PANEL 05 — COVERAGE TYPES (Wide, Medium, Close-Up, Insert, OTS). PANEL 06 — COLOR PALETTE (6 HEX swatches). Bottom: "Use this shot board as a visual reference for consistent scene breakdown across all generations." Style: Cinematic · Realistic · Continuous. Photorealistic. 8K, fine grain, cinematic color grading.</div>
+    <p class="prompt-note">Промпт остаётся на английском: он требует английские подписи на самом борде и так модель работает точнее всего.</p>
+  </div>
+</article>
 
-  <section>
-    <div class="part-head rv"><span class="no">Часть 3 · 12 минут</span><h2>Seed Audio — ваш звукоцех</h2></div>
-    <p class="part-sub rv">Закадр мы доверили Eleven V3 / Qwen, а вот всё остальное звуковое — стихия Seed Audio.</p>
-    <div class="shell rv"><div class="core">
-      <ul class="steps">
-        <li class="step"><input type="checkbox" id="s1"><label for="s1"><b>Мультиспич</b> — диалог двух голосов одной генерацией, формат в рамке ниже</label></li>
-        <li class="step"><input type="checkbox" id="s2"><label for="s2"><b>Звуковой эффект</b> — опишите звук текстом: «звонок в дверь клиники, мягкий, двойной»</label></li>
-        <li class="step"><input type="checkbox" id="s3"><label for="s3"><b>Музыка</b> — короткий фоновый трек: «лёгкая тёплая фоновая музыка, укулеле и пиано, 20 секунд, без вокала»</label></li>
-        <li class="step"><input type="checkbox" id="s4"><label for="s4">Диалоги удобнее готовить в Supercomputer — он расставит теги голосов сам</label></li>
-      </ul>
-    </div></div>
-    <div class="shell prompt rv"><div class="core">
-      <div class="prompt-top">
-        <span>Формат мультиспич-диалога</span>
-        <button class="copy-btn" data-copy="pr1">Скопировать <span class="ico">→</span></button>
-      </div>
-      <pre id="pr1">[Голос 1, женский, тёплый]: Доктор, а это больно?
-[Голос 2, мужской, спокойный]: Совсем нет. Вы даже не заметите.</pre>
-    </div></div>
-    <figure class="shell shot rv"><div class="core">
-      <img src="assets/lesson-06/02-seedaudio.png" alt="Настройки Seed Audio" onerror="this.closest('.shot').classList.add('missing')">
-      <div class="ph"><span>📷 скриншот: 02-seedaudio.png — настройки Seed Audio</span></div>
-      <figcaption>Seed Audio: речь, диалоги, эффекты, музыка</figcaption>
-    </div></figure>
-  </section>
+<!-- =============================== OBJECT =============================== -->
+<article class="board" id="object">
+  <div class="board-head"><span class="board-emoji">⚔️</span><h3>Object Board</h3></div>
+  <div class="board-body">
+    <p>Превращает любой реквизит, оружие, шлем или артефакт в полноценный продуктово-дизайнерский референс-лист — ракурсы, макродетали, световые этюды и цветовая палитра.</p>
+    <p class="bestfor"><b>Лучше всего подходит для:</b> любого фото объекта — шлемы, оружие, украшения, автомобили, мебель, реквизит.</p>
+    <table class="panels">
+      <tbody><tr><td>ПАНЕЛЬ 01</td><td>Виды — 6 ракурсов на нейтральном постаменте: фронт, 3/4 слева, левый бок, сзади, 3/4 справа, сверху</td></tr>
+      <tr><td>ПАНЕЛЬ 02</td><td>Детали — 4 макро: рукоять/хват, корпус/клинок, гравировка/клеймо мастера, кромка/следы износа</td></tr>
+      <tr><td>ПАНЕЛЬ 03</td><td>Свет/настроение — 4 кадра: мягкий дневной, тёплый вольфрамовый, холодный синий ночной, жёсткий кинематографичный боковой</td></tr>
+      <tr><td>ПАНЕЛЬ 04</td><td>Цветовая палитра — 6 HEX-свотчей с поверхностей объекта</td></tr>
+    </tbody></table>
+    <div class="prompt-label"><span>Промпт — копируйте как есть</span><button class="copy-btn" data-copy="">Скопировать</button></div>
+    <div class="prompt">Create a single high-resolution, densely packed product/object reference sheet titled "OBJECT BOARD" using the attached photo of the object as the single source of truth for design, materials, proportions, color and detailing. The object must be identical across every panel. All on-image labels in ENGLISH. Editorial product-design board layout with a dark near-black background, thin yellow neon accent light, faint film-grain overlay, and premium industrial-design UI. Include a prominent hero product shot with metadata block: NAME · ERA · ORIGIN · MATERIAL · DIMENSIONS · WEIGHT · DESCRIPTION · KEY FEATURES · CONDITION · PURPOSE. PANEL 01 — VIEWS (6 angles on neutral plinth): FRONT · 3/4 LEFT · LEFT SIDE · BACK · 3/4 RIGHT · TOP-DOWN. PANEL 02 — DETAILS (4 macros): handle/grip · body/blade · engraving/maker's mark · edge/wear. PANEL 03 — LIGHTING/MOOD (4 same-angle portraits): SOFT DAYLIGHT · WARM TUNGSTEN · COOL BLUE NIGHT · HARD CINEMATIC SIDE-LIGHT. PANEL 04 — COLOR PALETTE (6 HEX swatches). Bottom: "Use this product board as a visual reference for consistent depiction of the object across all generations." Style: Premium · Realistic · Cinematic. Photorealistic. 8K, fine grain, cinematic color grading.</div>
+  </div>
+</article>
 
-  <section>
-    <div class="part-head rv"><span class="no">Часть 4 · 10 минут</span><h2>Чей голос: клон или библиотека</h2></div>
-    <div class="shell rv"><div class="core">
-      <ul class="steps">
-        <li class="step"><input type="checkbox" id="v1"><label for="v1"><b>Библиотека голосов:</b> прослушайте 2–3 русских кандидата (я подскажу отобранные)<span class="hint">Честно: у части готовых голосов заметен акцент — поэтому выбираем ушами</span></label></li>
-        <li class="step"><input type="checkbox" id="v2"><label for="v2"><b>Клонирование своего голоса</b> — 40 кредитов, один раз: записываете образец, дальше «ваш» голос доступен во всей экосистеме<span class="hint">Решение за вами: бренд-войс клиники может быть и синтетическим, и вашим</span></label></li>
-        <li class="step"><input type="checkbox" id="v3"><label for="v3">Обзорно, на будущее: <b>смена голоса</b> в готовом видео и <b>перевод видео</b> — тоже здесь</label></li>
-      </ul>
-    </div></div>
-    <figure class="shell shot rv"><div class="core">
-      <img src="assets/lesson-06/03-voices.png" alt="Библиотека голосов" onerror="this.closest('.shot').classList.add('missing')">
-      <div class="ph"><span>📷 скриншот: 03-voices.png — библиотека голосов</span></div>
-      <figcaption>Библиотека голосов и клонирование</figcaption>
-    </div></figure>
-  </section>
+<!-- =============================== LOCATION =============================== -->
+<article class="board" id="location">
+  <div class="board-head"><span class="board-emoji">🌆</span><h3>Location Board</h3></div>
+  <div class="board-body">
+    <p>Конвертирует любое фото окружения в производственный лист локейшн-скаута — виды со всех ракурсов, время суток, погодные настроения, сет-дрессинг и полная палитра.</p>
+    <p class="bestfor"><b>Лучше всего подходит для:</b> любого окружения — улицы, леса, интерьеры, руины, sci-fi-пространства, фэнтези-миры.</p>
+    <table class="panels">
+      <tbody><tr><td>ПАНЕЛЬ 01</td><td>Виды — 5 кадров одной локации: общий, средний, тесный, альтернативный ракурс, сверху</td></tr>
+      <tr><td>ПАНЕЛЬ 02</td><td>Время суток — 4 кадра с одного ракурса: рассвет, полдень, сумерки, ночь</td></tr>
+      <tr><td>ПАНЕЛЬ 03</td><td>Детали — 2 макро: материал/фактура крупно, характерная архитектурная деталь</td></tr>
+      <tr><td>ПАНЕЛЬ 04</td><td>Сет-дрессинг/реквизит — 5 изолированных этюдов реквизита или вывесок на тёмном фоне</td></tr>
+      <tr><td>ПАНЕЛЬ 05</td><td>Погода/настроение — 4 кадра с одного ракурса: ясно, пасмурно, после дождя, туман</td></tr>
+      <tr><td>ПАНЕЛЬ 06</td><td>Цветовая палитра — 6 HEX-свотчей из доминирующих тонов локации</td></tr>
+    </tbody></table>
+    <div class="prompt-label"><span>Промпт — копируйте как есть</span><button class="copy-btn" data-copy="">Скопировать</button></div>
+    <div class="prompt">Create a single high-resolution, densely packed location reference sheet titled "LOCATION BOARD" using the attached photo of the location as the single source of truth for its architecture, atmosphere, lighting, materials and color palette. The space must be identical across every panel. All on-image labels in ENGLISH. Editorial location-reference board layout with a dark near-black background, thin yellow neon accent light, faint film-grain overlay, and production-grade location-scout UI. Include a prominent hero shot with metadata block: NAME · TYPE · ERA · SCALE · ARCHITECTURE · MATERIALS · ATMOSPHERE · DEFAULT TIME · DEFAULT WEATHER · PURPOSE. PANEL 01 — VIEWS (5 shots, identical lighting): WIDE · MID · TIGHT · ALT ANGLE · OVERHEAD. PANEL 02 — TIME OF DAY (4 same-angle shots): DAWN · NOON · DUSK · NIGHT. PANEL 03 — DETAILS (2 macros): material/texture close-up · architectural detail. PANEL 04 — SET DRESSING/PROPS (5 isolated prop studies on dark background). PANEL 05 — WEATHER/MOOD (4 shots): CLEAR SUNNY · OVERCAST · RAIN-SOAKED · MISTY FOG. PANEL 06 — COLOR PALETTE (6 HEX swatches). Bottom: "Use this location board as a visual reference for consistent depiction of the environment across all generations." Style: Modern · Realistic · Cinematic. Photorealistic. 8K, fine grain, cinematic color grading.</div>
+  </div>
+</article>
 
-  <section>
-    <div class="part-head rv"><span class="no">Часть 5 · 10 минут</span><h2>Озвучиваем эксплейнер</h2></div>
-    <div class="shell rv"><div class="core">
-      <ul class="steps">
-        <li class="step"><input type="checkbox" id="o1"><label for="o1">Разбейте сценарий на реплики по сценам<span class="hint">Если сториборд готов — они уже разбиты</span></label></li>
-        <li class="step"><input type="checkbox" id="o2"><label for="o2">Озвучьте выбранным голосом первые 3–4 сцены: одна сцена = одна генерация</label></li>
-        <li class="step"><input type="checkbox" id="o3"><label for="o3">Слушайте каждую сразу: темп, ударения, паузы. Не то — правим текст и перегенерируем<span class="hint">0.3 кр за реплику — можно позволить</span></label></li>
-        <li class="step"><input type="checkbox" id="o4"><label for="o4">Складывайте готовые дорожки в одно место — папка «Озвучка эксплейнера»</label></li>
-      </ul>
-    </div></div>
-    <div class="takeaway rv" style="margin-top:20px;">
-      <span class="mark">!</span>
-      <p><b>Ролик обрёл голос.</b> На следующем уроке начинаем сборку: кадры + движение + ваш звук.</p>
-    </div>
-  </section>
+<!-- =============================== POSE =============================== -->
+<article class="board" id="pose">
+  <div class="board-head"><span class="board-emoji">🧍</span><h3>Pose Board</h3></div>
+  <div class="board-body">
+    <p>Генерирует полный референс-лист поз, готовый к анимации, из одного фото персонажа — базовые и экшн-позы, эмоции, покрытие ракурсов и палитра костюма.</p>
+    <p class="bestfor"><b>Лучше всего подходит для:</b> любого фото персонажа или портрета. Отлично готовит персонажей к анимации в Seedance.</p>
+    <table class="panels">
+      <tbody><tr><td>ПАНЕЛЬ 01</td><td>Базовые позы — 5 кадров в полный рост: стоит, сидит, идёт, бежит, прыгает</td></tr>
+      <tr><td>ПАНЕЛЬ 02</td><td>Экшн-позы — 5 динамичных кадров: боевая стойка, бросок, уклонение, лазание, приземление</td></tr>
+      <tr><td>ПАНЕЛЬ 03</td><td>Эмоции — 5 плотных портретов: нейтральное, смех, злость, грусть, удивление</td></tr>
+      <tr><td>ПАНЕЛЬ 04</td><td>Покрытие ракурсов — 4 стоячих портрета: фронт, 3/4, бок, спина</td></tr>
+      <tr><td>ПАНЕЛЬ 05</td><td>Цветовая палитра — 6 HEX-свотчей из одежды и тонов кожи</td></tr>
+    </tbody></table>
+    <div class="prompt-label"><span>Промпт — копируйте как есть</span><button class="copy-btn" data-copy="">Скопировать</button></div>
+    <div class="prompt">Create a single high-resolution, densely packed character pose reference sheet titled "POSE BOARD" using the attached photo of the character as the single source of truth for face, hair, body proportions and outfit. The character must be identical across every panel. All on-image labels in ENGLISH. Editorial animation-reference layout with a dark near-black background, thin yellow neon accent light, faint film-grain overlay, and studio reference UI. Include a large full-body hero standing shot with metadata block: NAME · AGE · BUILD · HEIGHT · OUTFIT · POSE LANGUAGE · CENTER OF GRAVITY · DOMINANT HAND · PURPOSE: animation and video-generation reference. PANEL 01 — BASIC POSES (5 full-body shots): STAND · SIT · WALK · RUN · JUMP. PANEL 02 — ACTION POSES (5 dynamic shots): FIGHT STANCE · THROW · DODGE · CLIMB · LAND. PANEL 03 — EXPRESSIONS (5 tight headshots): NEUTRAL · LAUGH · ANGRY · SAD · SURPRISED. PANEL 04 — ANGLE COVERAGE (4 standing portraits): FRONT · 3/4 · SIDE · BACK. PANEL 05 — COLOR PALETTE (6 HEX swatches). Bottom: "Use this pose sheet as a visual reference for consistent animation of the character across all generations." Style: Animation Ready · Realistic · Cinematic. Photorealistic. 8K, fine grain, cinematic color grading.</div>
+  </div>
+</article>
 
-  <div class="rule"></div>
+<!-- =============================== CHARACTER =============================== -->
+<article class="board" id="character">
+  <div class="board-head"><span class="board-emoji">👤</span><h3>Character Board</h3></div>
+  <div class="board-body">
+    <p>Строит полную «библию персонажа» из любого портрета — виды в полный рост, эмоции, раскладки одежды, световые этюды и цветовая палитра. Основа консистентной генерации персонажей.</p>
+    <p class="bestfor"><b>Лучше всего подходит для:</b> любого человека, персонажа или портрета. Золотой стандарт консистентности ИИ-персонажей.</p>
+    <table class="panels">
+      <tbody><tr><td>ПАНЕЛЬ 01</td><td>Виды — 5 кадров в полный рост: фронт, 3/4 слева, левый бок, спина, 3/4 справа</td></tr>
+      <tr><td>ПАНЕЛЬ 02</td><td>Эмоции — 5 плотных портретов: нейтральное, улыбка, задумчивость, сосредоточенность, серьёзность</td></tr>
+      <tr><td>ПАНЕЛЬ 03</td><td>Детали — 2 макро: лицо/глаза крупно, характерная деталь одежды</td></tr>
+      <tr><td>ПАНЕЛЬ 04</td><td>Раскладки одежды — 5 изолированных продуктовых кадров: куртка, рубашка, брюки, часы, обувь</td></tr>
+      <tr><td>ПАНЕЛЬ 05</td><td>Свет/настроение — 4 портрета: мягкий дневной, тёплый вольфрамовый интерьер, холодный синий ночной, жёсткий кинематографичный боковой</td></tr>
+      <tr><td>ПАНЕЛЬ 06</td><td>Цветовая палитра — 6 HEX-свотчей из одежды и тонов кожи</td></tr>
+    </tbody></table>
+    <div class="prompt-label"><span>Промпт — копируйте как есть</span><button class="copy-btn" data-copy="">Скопировать</button></div>
+    <div class="prompt">Create a single high-resolution, densely packed character reference sheet titled "CHARACTER BOARD" using the attached photo of the person as the single source of truth for face, hair, eyes, skin tone and body proportions. The same person must appear in every panel — same age, same outfit. All on-image labels in ENGLISH. Editorial reference-board layout with a dark near-black background, thin yellow neon accent light, faint film-grain overlay, and production-grade character-design UI. Include a large hero portrait with metadata block: NAME · AGE · HEIGHT · BUILD · HAIR · EYES · FEATURES · OUTFIT · CHARACTER · MOOD. PANEL 01 — VIEWS (5 full-body shots, neutral backdrop): FRONT · 3/4 LEFT · SIDE LEFT · BACK · 3/4 RIGHT. PANEL 02 — EXPRESSIONS (5 tight headshots): NEUTRAL · SMILE · THOUGHTFUL · FOCUSED · SERIOUS. PANEL 03 — DETAILS (2 macros): face/eyes close-up · distinctive outfit detail. PANEL 04 — OUTFIT FLAT-LAYS (5 isolated product shots on dark background): jacket · shirt · trousers · watch · shoes. PANEL 05 — LIGHTING/MOOD (4 same-pose portraits): SOFT DAYLIGHT · WARM TUNGSTEN INTERIOR · COOL BLUE NIGHT · HARD CINEMATIC SIDE-LIGHT. PANEL 06 — COLOR PALETTE (6 HEX swatches). Bottom: "Use this character board as a visual reference for consistent depiction of the character across all generations." Style: Modern · Realistic · Cinematic. Photorealistic. 8K, fine grain, cinematic color grading.</div>
+  </div>
+</article>
 
-  <section>
-    <span class="eyebrow rv"><span class="dot" style="background:var(--clay);"></span>Домашнее задание</span>
-    <div class="shell rv" style="margin-top:18px;"><div class="core">
-      <div class="hw-item">
-        <span class="n">1</span>
-        <div><h4>Полная закадровая дорожка эксплейнера</h4><p>Все сцены озвучены выбранным голосом, файлы по порядку.</p></div>
-      </div>
-      <div class="hw-item">
-        <span class="n">2</span>
-        <div><h4>Фоновая музыка</h4><p>1–2 варианта через Seed Audio — или скажите, подберём стоковую. По желанию — один звуковой эффект для акцента.</p></div>
-      </div>
-      <div class="hw-item">
-        <span class="n">3</span>
-        <div><h4>Оживите 1–2 кадра сториборда</h4><p>Kling 3.0 (~15 кр). Промпт движения попросите у Supercomputer — методика Kling 3.0 в памяти с урока 4, проверим её в бою. К сборке у вас будет набита видео-рука.</p></div>
-      </div>
-      <div class="hw-item">
-        <span class="n">4</span>
-        <div><h4>Пришлите дорожки и клипы мне</h4><p>Проверю темп и стыки до урока сборки.</p></div>
-      </div>
-      <div class="hw-check">
-        <h4>Чек готовности к уроку 7 · сборка</h4>
-        <ul class="steps">
-          <li class="step"><input type="checkbox" id="h1"><label for="h1">Все сцены озвучены, порядок ясен</label></li>
-          <li class="step"><input type="checkbox" id="h2"><label for="h2">Музыка выбрана (сгенерирована или согласована)</label></li>
-          <li class="step"><input type="checkbox" id="h3"><label for="h3">1–2 клипа сториборда готовы, промпты движения — через память</label></li>
-          <li class="step"><input type="checkbox" id="h4"><label for="h4">Сториборд эксплейнера финален: сцены + закадр + промпты</label></li>
-          <li class="step"><input type="checkbox" id="h5"><label for="h5">Всё отправлено мне</label></li>
-        </ul>
-      </div>
-    </div></div>
-  </section>
+<!-- =============================== FACE (NEW) =============================== -->
+<article class="board highlight" id="face">
+  <div class="board-head"><span class="board-emoji">🪞</span><h3>Face Board</h3><span class="badge-new">Новый раздел</span></div>
+  <div class="board-body">
+    <p>Карта лица крупным планом. Фиксирует только лицо — форму, черты, кожу, волосы и глаза — без одежды, аксессуаров и всего, что может «перетянуть» консистентность на себя. Самый точный инструмент, когда нужна идентичность лица от генерации к генерации: ракурсы головы, эмоции, макродетали, поведение кожи в разном свете и палитра тонов.</p>
+    <p class="bestfor"><b>Лучше всего подходит для:</b> любого портретного фото. Используйте его, когда критична именно узнаваемость лица — до того, как строить Character Board или анимацию.</p>
+    <table class="panels">
+      <tbody><tr><td>HERO</td><td>Хиро-портрет (слева сверху, крупно) — плотный фронтальный портрет на нейтральном сером студийном фоне, мягкий ровный свет. Рядом блок метаданных: NAME · AGE · SKIN TONE · HAIR COLOR · EYE COLOR · FACE SHAPE · DISTINCTIVE FEATURES</td></tr>
+      <tr><td>ПАНЕЛЬ 01</td><td>Ракурсы — 5 портретов с открытыми плечами, одинаковый серый фон и мягкий свет: фронт, 3/4 слева, профиль слева, затылок, 3/4 справа</td></tr>
+      <tr><td>ПАНЕЛЬ 02</td><td>Эмоции — 5 плотных портретов, тот же ракурс и свет: нейтральное, улыбка, задумчивость, сосредоточенность, серьёзность</td></tr>
+      <tr><td>ПАНЕЛЬ 03</td><td>Макродетали — 3 крупных плана: глаза и брови · нос и скулы · губы и линия челюсти</td></tr>
+      <tr><td>ПАНЕЛЬ 04</td><td>Вариации света — 4 портрета в одной позе: мягкий дневной, тёплый вольфрамовый, холодный синий ночной, жёсткий кинематографичный боковой</td></tr>
+      <tr><td>ПАНЕЛЬ 05</td><td>Палитра кожи и цвета — 5 HEX-свотчей, снятых с тона кожи, цвета волос и цвета глаз</td></tr>
+    </tbody></table>
+    <div class="prompt-label"><span>Промпт — копируйте как есть</span><button class="copy-btn" data-copy="">Скопировать</button></div>
+    <div class="prompt">Dark near-black editorial reference-board background, thin yellow neon accent light along the edges, faint film-grain overlay, production-grade character-design UI layout. Title at the top in bold white sans-serif: "FACE BOARD".
+Subject: the person from the attached reference photo is the single source of truth for face shape, hair, eyes, skin tone and facial proportions. The same person, same age, must appear identical across every panel. No clothing, no accessories, no jewelry, no headwear — bare shoulders/neck only, cropped just below the collarbone so no garment is visible.
+Layout — six labeled panels, all text labels in English:
+Hero portrait, top-left, large: tight frontal headshot, neutral studio grey backdrop, soft even lighting. Metadata block beside it: NAME · AGE · SKIN TONE · HAIR COLOR · EYE COLOR · FACE SHAPE · DISTINCTIVE FEATURES.
+PANEL 01 — ANGLES (5 bare-shoulder headshots, identical neutral grey backdrop, identical soft lighting): FRONT · 3/4 LEFT · PROFILE LEFT · BACK OF HEAD · 3/4 RIGHT.
+PANEL 02 — EXPRESSIONS (5 tight headshots, same angle and lighting): NEUTRAL · SMILE · THOUGHTFUL · FOCUSED · SERIOUS.
+PANEL 03 — MACRO DETAILS (3 close-ups): eyes and brows close-up · nose and cheekbone close-up · lips and jawline close-up.
+PANEL 04 — LIGHTING VARIATIONS (4 identical-pose headshots): SOFT DAYLIGHT · WARM TUNGSTEN · COOL BLUE NIGHT · HARD CINEMATIC SIDE-LIGHT.
+PANEL 05 — SKIN &amp; COLOR PALETTE (5 HEX swatches sampled from skin tone, hair color, and eye color).
+Bottom caption in small white text: "Use this face board as a visual reference for consistent facial depiction across all generations."
+Composition and framing: grid of clearly separated bordered panels, consistent margins, no overlapping crops.
+Lighting and atmosphere: neutral studio lighting for all reference panels except Panel 04, which intentionally varies lighting; consistent color temperature elsewhere.
+Style: modern, realistic, cinematic color grading, photorealistic, 8K, fine grain.
+Constraints: keep the subject's face, skin tone, hair, and eyes exactly consistent with the reference photo across every panel. Do not add clothing, jewelry, glasses, hats, or any accessories anywhere on the board.
+Intended use: for a production-grade AI character face-consistency reference sheet.</div>
+    <p class="prompt-note">Ключевое отличие от Character Board: никакой одежды и аксессуаров — кадрирование чуть ниже ключиц, чтобы в кадре не было ни одного предмета гардероба. Модель фиксирует только лицо.</p>
+  </div>
+</article>
 
-  <footer class="foot">
-    <div class="fleur">✳</div>
-    Курс «Нейровидео на Higgsfield» · Урок 6
-  </footer>
+<!-- =============================== CREATURE =============================== -->
+<article class="board" id="creature">
+  <div class="board-head"><span class="board-emoji">🦎</span><h3>Creature Board</h3></div>
+  <div class="board-body">
+    <p>Превращает любое изображение существа или монстра в полный VFX-референс-лист — виды с разных ракурсов, эмоции, анатомические макро, сравнение масштаба, поведенческие позы и палитра.</p>
+    <p class="bestfor"><b>Лучше всего подходит для:</b> ИИ-существ, монстров, животных, фэнтези-созданий, sci-fi-пришельцев.</p>
+    <table class="panels">
+      <tbody><tr><td>ПАНЕЛЬ 01</td><td>Виды — 5 ракурсов в полный рост: фронт, 3/4 слева, левый бок, сзади, 3/4 справа</td></tr>
+      <tr><td>ПАНЕЛЬ 02</td><td>Эмоции/состояния — 5 крупных планов головы: спокойное, охота, рёв, любопытство, ранение</td></tr>
+      <tr><td>ПАНЕЛЬ 03</td><td>Анатомические детали — 4 макро: глаза, зубы/пасть, фактура кожи/чешуи/шерсти, коготь/конечность/крыло</td></tr>
+      <tr><td>ПАНЕЛЬ 04</td><td>Сравнение масштаба — существо рядом с силуэтом человека 1,8 м и линейкой 30 см</td></tr>
+      <tr><td>ПАНЕЛЬ 05</td><td>Поведение/позы — 4 кадра в окружении: отдыхает, крадётся, атакует, спасается бегством</td></tr>
+      <tr><td>ПАНЕЛЬ 06</td><td>Цветовая палитра — 6 HEX-свотчей с тела существа</td></tr>
+    </tbody></table>
+    <div class="prompt-label"><span>Промпт — копируйте как есть</span><button class="copy-btn" data-copy="">Скопировать</button></div>
+    <div class="prompt">Create a single high-resolution, densely packed creature reference sheet titled "CREATURE BOARD" using the attached image of the creature as the single source of truth for anatomy, skin/scale/fur texture, color and proportions. The creature must be identical across every panel. All on-image labels in ENGLISH. Editorial creature-design board layout with a dark near-black background, thin yellow neon accent light, faint film-grain overlay, and VFX-studio creature-design UI. Include a large hero portrait with metadata block: NAME/SPECIES · AGE · SIZE · WEIGHT · HABITAT · DIET · TEMPERAMENT · DISTINCT FEATURES (3-5 bullets) · ABILITIES/TRAITS (3-4 bullets) · LORE NOTE. PANEL 01 — VIEWS (5 full-body angles): FRONT · 3/4 LEFT · SIDE LEFT · BACK · 3/4 RIGHT. PANEL 02 — EXPRESSIONS/EMOTIONS (5 head close-ups): CALM · HUNTING · ROARING · CURIOUS · WOUNDED. PANEL 03 — ANATOMY DETAILS (4 macros): EYES · TEETH/MOUTH · SKIN/SCALES/FUR TEXTURE · CLAW/LIMB/WING. PANEL 04 — SCALE COMPARISON (beside 1.8m human + 30cm ruler). PANEL 05 — BEHAVIOR/POSES (4 environmental shots): RESTING · STALKING · ATTACKING · FLEEING. PANEL 06 — COLOR PALETTE (6 HEX swatches). Bottom: "Use this creature board as a visual reference for consistent depiction of the creature across all generations." Style: VFX Ready · Realistic · Cinematic. Photorealistic. 8K, fine grain, cinematic color grading.</div>
+  </div>
+</article>
+
+<!-- =============================== COMBOS =============================== -->
+<section id="combos">
+  <h2>Комбинирование бордов для максимальной консистентности</h2>
+  <p>Настоящая сила системы — в цепочках бордов. Самые эффективные комбинации:</p>
+  <table class="combos">
+    <tbody><tr><th>Воркфлоу</th><th>Что это даёт</th></tr>
+    <tr><td>Face Board <span class="arrow">→</span> Character Board</td><td>Сначала зафиксируйте лицо в чистом виде, затем используйте готовый Face Board как исходник для полной библии персонажа — лицо не «поплывёт» из-за одежды и аксессуаров.</td></tr>
+    <tr><td>Character Board <span class="arrow">→</span> Pose Board</td><td>Полная библия персонажа + референс поз для анимации. Подайте результат Character Board как исходник для Pose Board.</td></tr>
+    <tr><td>Character Board <span class="arrow">→</span> Shot Board</td><td>Консистентный персонаж на протяжении всей кинематографической последовательности. Отлично для ИИ-короткометражек.</td></tr>
+    <tr><td>Location Board <span class="arrow">→</span> Shot Board</td><td>Консистентность окружения встроена в раскадровку — каждый шот следует одним и тем же правилам локации.</td></tr>
+    <tr><td>Creature Board <span class="arrow">→</span> Pose Board</td><td>Нечеловеческий персонаж, готовый к анимации в Seedance, с полным поведенческим референсом.</td></tr>
+    <tr><td>Object Board <span class="arrow">→</span> Shot Board</td><td>Реквизит получает собственную кинематографическую подачу — полезно для продуктовых ревилов и сцен с фэнтези-артефактами.</td></tr>
+  </tbody></table>
+</section>
+
+<footer>
+  <span>GPT Image 2 · Референс-борды</span>
+  <span>aididthat.netlify.app</span>
+</footer>
+
 </div>
 
 <script>
-  const io = new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in'); io.unobserve(e.target);}})},{threshold:.08, rootMargin:'0px 0px -40px 0px'});
-  document.querySelectorAll('.rv').forEach(el=>io.observe(el));
-  document.querySelectorAll('.copy-btn').forEach(btn=>{
-    btn.addEventListener('click', async ()=>{
-      const t = document.getElementById(btn.dataset.copy).innerText;
-      try{ await navigator.clipboard.writeText(t);
-        btn.childNodes[0].textContent='Скопировано ';
-        setTimeout(()=>{btn.childNodes[0].textContent='Скопировать ';},1800);
-      }catch(e){}
+document.querySelectorAll('[data-copy]').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const txt=btn.closest('.board-body').querySelector('.prompt').innerText;
+    navigator.clipboard.writeText(txt).then(()=>{
+      const old=btn.textContent;btn.textContent='Скопировано ✓';
+      setTimeout(()=>btn.textContent=old,1600);
     });
   });
+});
 </script>
-</body>
-</html>
+
+
+</body></html>
