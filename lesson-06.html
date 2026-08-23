@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Урок 5 · Собираем вертикалку: от сценария до готового ролика</title>
+<title>Урок 6 · Кино начинается с персонажа: Soul, Locations и AI Cast</title>
 
 <style>
 
@@ -108,7 +108,7 @@
   :root{
     --paper:#FBF9F4; --card:#FFFDFA; --ink:#221D16; --ink-2:#6E6659; --ink-3:#A39B8B;
     --line:rgba(34,29,22,.08); --line-2:rgba(34,29,22,.14);
-    --sage:#B4653F; --sage-soft:#F7EDE6; --clay:#B4653F; --clay-soft:#F7EDE6;
+    --sage:#2F4B58; --sage-soft:#E6EEF1; --clay:#B4653F; --clay-soft:#F7EDE6;
     --shadow:0 24px 48px -28px rgba(34,29,22,.18);
     --ease:cubic-bezier(0.32,0.72,0,1);
     --r-out:26px; --r-in:20px;
@@ -120,7 +120,7 @@
   body::before{content:''; position:fixed; inset:0; z-index:40; pointer-events:none; opacity:.028;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");}
   .glow{position:fixed; top:-220px; right:-180px; width:640px; height:640px; z-index:0; pointer-events:none;
-    background:radial-gradient(circle at center, rgba(180,101,63,.10), transparent 62%);}
+    background:radial-gradient(circle at center, rgba(47,75,88,.10), transparent 62%);}
   .page{max-width:780px; margin:0 auto; padding:72px 28px 96px; position:relative; z-index:1;}
 
   .eyebrow{display:inline-flex; align-items:center; gap:8px; border:1px solid var(--line-2); border-radius:999px;
@@ -133,13 +133,14 @@
   .meta{display:flex; gap:10px; flex-wrap:wrap; margin-top:26px;}
   .chip{border:1px solid var(--line-2); background:var(--card); border-radius:999px; padding:7px 16px;
     font-size:13.5px; color:var(--ink-2); box-shadow:0 1px 0 rgba(255,255,255,.6) inset;}
-  .chip.warn{background:var(--clay-soft); border-color:rgba(180,101,63,.3); color:var(--clay); font-weight:600;}
+  .chip.free{background:#EDF3EC; border-color:rgba(95,115,85,.3); color:#4A6141; font-weight:600;}
   .rule{height:1px; background:var(--line); margin:56px 0;}
 
   section{margin-bottom:64px;}
   .part-head{margin-bottom:8px;}
   .part-head .no{display:block; font-size:11px; font-weight:600; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-3); margin-bottom:8px;}
   h2{font-family:'Piazzolla',Georgia,serif; font-weight:600; font-size:clamp(24px,3.6vw,31px); line-height:1.15; letter-spacing:-0.01em;}
+  h3.sub{font-family:'Piazzolla',Georgia,serif; font-weight:600; font-size:20px; margin:30px 0 14px;}
   .part-sub{color:var(--ink-2); margin:10px 0 26px; max-width:620px;}
   .part-sub b{font-weight:600; color:var(--ink);}
 
@@ -172,16 +173,18 @@
   .step .hint{display:block; font-size:13.5px; color:var(--ink-3); margin-top:3px;}
   .step b{font-weight:600;}
   kbd.ui{font-family:'Golos Text',sans-serif; font-size:13px; font-weight:600; color:var(--ink);
-    background:var(--sage-soft); border:1px solid rgba(180,101,63,.28); border-radius:7px; padding:1.5px 9px; white-space:nowrap;}
+    background:var(--sage-soft); border:1px solid rgba(47,75,88,.25); border-radius:7px; padding:1.5px 9px; white-space:nowrap;}
 
   table.md{width:100%; border-collapse:collapse; font-size:14px;}
   table.md th{font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-3); text-align:left; padding:0 12px 10px 0; font-weight:600;}
   table.md td{padding:11px 12px 11px 0; border-top:1px solid var(--line); vertical-align:top;}
   table.md td b{font-weight:600;}
+  table.md.no .yes{color:#4A6141; font-weight:600;}
+  table.md.no .not{color:var(--clay); font-weight:600;}
 
   .prompt .core{padding:0; overflow:hidden;}
   .prompt-top{display:flex; align-items:center; justify-content:space-between; gap:12px;
-    padding:13px 20px; border-bottom:1px solid var(--line); background:linear-gradient(180deg,rgba(180,101,63,.06),transparent);}
+    padding:13px 20px; border-bottom:1px solid var(--line); background:linear-gradient(180deg,rgba(47,75,88,.06),transparent);}
   .prompt-top span{font-size:11px; font-weight:600; letter-spacing:.18em; text-transform:uppercase; color:var(--sage);}
   .copy-btn{display:inline-flex; align-items:center; gap:8px; border:1px solid var(--line-2); background:var(--card);
     border-radius:999px; padding:6px 7px 6px 15px; font-family:'Golos Text',sans-serif; font-size:12.5px; font-weight:600;
@@ -212,9 +215,9 @@
     color:var(--ink-3); font-size:13px;}
   .shot figcaption{font-size:12.5px; color:var(--ink-3); text-align:center; padding:10px 0 4px;}
 
-  .takeaway{background:linear-gradient(135deg,var(--sage-soft),#F5F2E9); border:1px solid rgba(180,101,63,.24);
+  .takeaway{background:linear-gradient(135deg,var(--sage-soft),#F1F1EA); border:1px solid rgba(47,75,88,.22);
     border-radius:var(--r-out); padding:24px 28px; display:flex; gap:16px; align-items:flex-start; box-shadow:var(--shadow);}
-  .takeaway .mark{width:34px; height:34px; border-radius:12px; background:rgba(180,101,63,.14); color:var(--sage);
+  .takeaway .mark{width:34px; height:34px; border-radius:12px; background:rgba(47,75,88,.14); color:var(--sage);
     display:inline-flex; align-items:center; justify-content:center; font-size:16px; font-weight:600; flex-shrink:0;}
   .takeaway p{font-size:15.5px;}
   .takeaway b{font-weight:600;}
@@ -254,13 +257,13 @@
 <div class="page">
 
   <header>
-    <span class="eyebrow rv"><span class="dot"></span>Курс нейровидео · Урок пятый</span>
-    <h1 class="rv">Собираем вертикалку:<br><span class="hl">от сценария до готового ролика</span></h1>
-    <p class="lede rv">Сегодня ничего нового не изучаем. Сегодня вы делаете ролик целиком — сами, своими руками, от текста до готовых клипов. Все инструменты уже знакомы, просто впервые собираются в одну линию.</p>
+    <span class="eyebrow rv"><span class="dot"></span>Курс нейровидео · Урок шестой</span>
+    <h1 class="rv">Кино начинается<br>с <span class="hl">персонажа</span></h1>
+    <p class="lede rv">Мультик вы уже умеете. Дальше — кино: живые лица, настоящие локации, операторский свет. Начинается всё с одного: с персонажа, который выглядит одинаково в любом кадре.</p>
     <div class="meta rv">
       <span class="chip">60 минут</span>
       <span class="chip">Онлайн · Zoom</span>
-      <span class="chip warn">Расход: ~45–60 кредитов</span>
+      <span class="chip free">Бесплатно · free gens</span>
     </div>
   </header>
 
@@ -270,9 +273,9 @@
     <span class="eyebrow rv"><span class="dot"></span>К концу урока у вас будет</span>
     <div class="shell outcomes rv" style="margin-top:18px;">
       <div class="core">
-        <div class="outcome"><div class="k">01</div><p><b>Сториборд</b> вашего ролика на 5–6 сцен</p></div>
-        <div class="outcome"><div class="k">02</div><p><b>Все кадры</b> сгенерированы и отобраны</p></div>
-        <div class="outcome"><div class="k">03</div><p><b>Все сцены оживлены</b> — остаётся только склеить</p></div>
+        <div class="outcome"><div class="k">01</div><p><b>Кино-персонаж,</b> обученный на ваших фотографиях</p></div>
+        <div class="outcome"><div class="k">02</div><p><b>Проект в Cinema Studio</b> с локациями и типажами</p></div>
+        <div class="outcome"><div class="k">03</div><p><b>Библиотека элементов,</b> из которой собираются сцены</p></div>
       </div>
     </div>
   </section>
@@ -281,152 +284,243 @@
     <div class="part-head rv"><span class="no">До урока</span><h2>Самостоятельно</h2></div>
     <div class="shell rv"><div class="core">
       <ul class="steps">
-        <li class="step"><input type="checkbox" id="b1"><label for="b1"><b>Главное: принесите сценарий на 30 секунд</b><span class="hint">Просто текст закадра, до 75 слов</span></label></li>
-        <li class="step"><input type="checkbox" id="b2"><label for="b2">Сценарий прочитан вслух с секундомером и укладывается в 30 секунд</label></li>
-        <li class="step"><input type="checkbox" id="b3"><label for="b3">Персонаж, окружение и реквизит на месте в библиотеке Elements</label></li>
-        <li class="step"><input type="checkbox" id="b4"><label for="b4">На балансе не меньше 60 кредитов</label></li>
-        <li class="step"><input type="checkbox" id="b5"><label for="b5">Style-блок и оба видео-скилла в памяти Supercomputer</label></li>
+        <li class="step"><input type="checkbox" id="b1"><label for="b1"><b>Главное: минимум 15 фотографий человека</b>, из которого делаем персонажа<span class="hint">Можно и пятьдесят, и восемьдесят — чем больше разных, тем крепче получится персонаж</span></label></li>
+        <li class="step"><input type="checkbox" id="b2"><label for="b2">Фото лежат в одной папке на компьютере, отсортированы</label></li>
+        <li class="step"><input type="checkbox" id="b3"><label for="b3">Ролик с прошлого урока собран и отправлен мне</label></li>
       </ul>
     </div></div>
+
+    <h3 class="sub rv">Какие фотографии нужны</h3>
+    <p class="part-sub rv">Пятнадцать — это нижняя граница, дальше чем больше, тем лучше. Но <b>количество работает только вместе с разнообразием</b>: пятьдесят одинаковых селфи дадут результат хуже, чем двадцать разных снимков.</p>
+    <div class="shell rv"><div class="core">
+      <table class="md no">
+        <tr><th>Нужно</th><th>Почему</th></tr>
+        <tr><td><b class="yes">Разные ракурсы</b></td><td>Фас, три четверти слева и справа, чуть сверху и снизу</td></tr>
+        <tr><td><b class="yes">Разный свет</b></td><td>Дом, улица, мягкий, жёсткий — модель учится узнавать лицо в любых условиях</td></tr>
+        <tr><td><b class="yes">Разные выражения</b></td><td>Нейтральное, улыбка, разговор</td></tr>
+        <tr><td><b class="yes">Разные дистанции</b></td><td>Портрет, по пояс, в полный рост</td></tr>
+        <tr><td><b class="yes">Резкость и размер</b></td><td>Чёткое лицо, глаза видно, от 1024 пикселей по стороне</td></tr>
+      </table>
+    </div></div>
+    <div class="shell rv"><div class="core">
+      <table class="md no">
+        <tr><th>Нельзя</th><th>Почему</th></tr>
+        <tr><td><b class="not">Тёмные очки, шляпы на пол-лица</b></td><td>Модель не увидит главного</td></tr>
+        <tr><td><b class="not">Групповые фото</b></td><td>Она не поймёт, кого из вас учить</td></tr>
+        <tr><td><b class="not">Тяжёлые фильтры и несвойственный макияж</b></td><td>Выучит фильтр, а не человека</td></tr>
+        <tr><td><b class="not">Костюмы и косплей</b></td><td>Персонаж получится в костюме навсегда</td></tr>
+        <tr><td><b class="not">Одна и та же поза</b></td><td>Пятьдесят копий одного снимка = обучение по одному снимку</td></tr>
+      </table>
+    </div></div>
+    <div class="takeaway rv" style="margin-top:20px;">
+      <span class="mark">15</span>
+      <p><b>Верхняя граница — 80 фотографий, нижняя — 15.</b> Меньше пятнадцати брать не стоит: персонаж выйдет приблизительным и будет «плыть» от кадра к кадру.</p>
+    </div>
   </section>
 
   <section>
-    <div class="part-head rv"><span class="no">Часть 1 · 10 минут</span><h2>Сценарий → сториборд</h2></div>
+    <div class="part-head rv"><span class="no">Часть 1 · 7 минут</span><h2>Element и Soul: в чём разница</h2></div>
+    <p class="part-sub rv">Вы уже фиксировали персонажа через Elements. Soul — другой инструмент и для другой задачи.</p>
     <div class="shell rv"><div class="core">
-      <ul class="steps">
-        <li class="step"><input type="checkbox" id="p1a"><label for="p1a">Читаем ваш сценарий вслух: где спотыкается — правим сразу</label></li>
-        <li class="step"><input type="checkbox" id="p1b"><label for="p1b">Считаем слова: до 75<span class="hint">Длиннее — режем, а не ускоряем</span></label></li>
-        <li class="step"><input type="checkbox" id="p1c"><label for="p1c">Отправляем команду раскладки на сцены из рамки ниже</label></li>
-        <li class="step"><input type="checkbox" id="p1d"><label for="p1d">Проверяем: у каждой сцены есть промпт и в нём стоит ваш персонаж</label></li>
-        <li class="step"><input type="checkbox" id="p1e"><label for="p1e">Копируем сториборд в заметки — по нему работаем весь урок</label></li>
-      </ul>
+      <table class="md">
+        <tr><th></th><th>Element</th><th>Soul</th></tr>
+        <tr><td><b>Что это</b></td><td>Сохранённый ассет: картинка или набор картинок</td><td>Обученная модель конкретного лица</td></tr>
+        <tr><td><b>Из чего</b></td><td>Одна генерация или борд</td><td>15–80 фотографий</td></tr>
+        <tr><td><b>Для чего</b></td><td>Мультяшный маскот, локация, предмет</td><td>Живой человек в кино-кадре</td></tr>
+        <tr><td><b>Как звать</b></td><td>Через <b>@</b> в промпте</td><td>Выбирается как модель генерации</td></tr>
+      </table>
     </div></div>
-    <div class="shell prompt rv"><div class="core">
-      <div class="prompt-top"><span>Раскладка на сцены</span><button class="copy-btn" data-copy="pr1">Скопировать <span class="ico">→</span></button></div>
-      <pre id="pr1">Разбей этот сценарий на 5–6 сцен. Для каждой дай: номер,
-текст закадра, что происходит в кадре.
-Отдельной строкой под каждой сценой — готовый промпт для
-картинки по методике Image Prompter, с участием [@персонаж].
-Вертикальный кадр 9:16, без надписей.</pre>
-    </div></div>
+    <div class="takeaway rv" style="margin-top:20px;">
+      <span class="mark">!</span>
+      <p><b>Element держит рисунок, Soul держит лицо.</b> Для мультика хватает первого, для кино нужен второй.</p>
+    </div>
   </section>
 
   <section>
-    <div class="part-head rv"><span class="no">Часть 2 · 18 минут</span><h2>Кадры конвейером</h2></div>
-    <p class="part-sub rv">Работаем на безлимитных моделях, поэтому пробуем сколько нужно. Задача — <b>пройти все сцены подряд</b>, а не вылизывать первую.</p>
+    <div class="part-head rv"><span class="no">Часть 2 · 12 минут</span><h2>Обучаем вашего персонажа</h2></div>
+    <p class="part-sub rv">Обучение живёт во вкладке <b>Image</b> — там же, где вы делали картинки весь курс.</p>
     <div class="shell rv"><div class="core">
       <ul class="steps">
-        <li class="step"><input type="checkbox" id="f1"><label for="f1">Откройте <kbd class="ui">Image</kbd> → <kbd class="ui">Nano Banana Pro</kbd>, ориентация 9:16</label></li>
-        <li class="step"><input type="checkbox" id="f2"><label for="f2">Берите промпты из сториборда по порядку: сцена 1, сцена 2, сцена 3…</label></li>
-        <li class="step"><input type="checkbox" id="f3"><label for="f3">На каждый кадр — один вопрос: <b>годен или перегенерировать?</b><span class="hint">Не «идеально ли», а «понятно ли, что происходит»</span></label></li>
-        <li class="step"><input type="checkbox" id="f4"><label for="f4">Складывайте кадры в одну папку с именами по номеру сцены: 01, 02, 03…</label></li>
-        <li class="step"><input type="checkbox" id="f5"><label for="f5">Когда все сцены закрыты — посмотрите их подряд<span class="hint">Это один ролик или набор случайных картинок?</span></label></li>
+        <li class="step"><input type="checkbox" id="t1"><label for="t1">Откройте <kbd class="ui">Image</kbd> → в списке инструментов найдите <kbd class="ui">Soul ID Character</kbd></label></li>
+        <li class="step"><input type="checkbox" id="t2"><label for="t2">Нажмите <b>Create character</b> и дайте короткое имя — по нему будете его звать</label></li>
+        <li class="step"><input type="checkbox" id="t3"><label for="t3">Загрузите ваши фотографии, тип обучения — <b>Soul 2.0</b></label></li>
+        <li class="step"><input type="checkbox" id="t4"><label for="t4">Запустите и <b>не ждите</b><span class="hint">Обучение идёт в фоне, мы пока займёмся другим</span></label></li>
+      </ul>
+    </div></div>
+    <div class="takeaway rv" style="margin-top:20px;">
+      <span class="mark">→</span>
+      <p><b>Рядом в том же списке</b> лежат ещё две полезные вещи, загляните на досуге: <b>Soul Moodboard</b> собирает ваши референсы в единый мудборд, а <b>Cinematic Cameras</b> — генерация картинок с настройками камеры. К камере вернёмся на следующем уроке.</p>
+    </div>
+    <figure class="shell shot rv"><div class="core">
+      <img src="assets/lesson-06/01-training.png" alt="Загрузка фотографий и запуск обучения" onerror="this.closest('.shot').classList.add('missing')">
+      <div class="ph"><span>📷 скриншот: 01-training.png — загрузка фотографий и запуск обучения</span></div>
+      <figcaption>Soul ID Character: фотографии загружены, обучение запущено</figcaption>
+    </div></figure>
+  </section>
+
+  <section>
+    <div class="part-head rv"><span class="no">Часть 3 · 8 минут</span><h2>Заходим в Cinema Studio</h2></div>
+    <p class="part-sub rv">Пока персонаж учится, знакомимся со студией. Это отдельная вкладка в верхнем меню — там же, где Image, Video и Audio.</p>
+    <div class="shell rv"><div class="core">
+      <ul class="steps">
+        <li class="step"><input type="checkbox" id="cs1"><label for="cs1">Откройте <kbd class="ui">Cinema Studio</kbd> и создайте <b>New project</b></label></li>
       </ul>
     </div></div>
     <div class="shell rv"><div class="core">
       <table class="md">
-        <tr><th>Что пошло не так</th><th>Лечение</th></tr>
-        <tr><td><b>Герой не похож на себя</b></td><td>Проверьте, что элемент подставлен в промпт; добавьте style-блок в конец</td></tr>
-        <tr><td><b>Кадр перегружен</b></td><td>Уберите половину деталей из промпта — в вертикали видно мало</td></tr>
-        <tr><td><b>Появились надписи</b></td><td>Допишите «no text» и перегенерируйте</td></tr>
+        <tr><th>Раздел слева</th><th>Зачем</th></tr>
+        <tr><td><b>All assets</b></td><td>Всё, что вы сгенерировали в проекте</td></tr>
+        <tr><td><b>Project brief</b></td><td>Описание проекта: о чём кино, какой стиль</td></tr>
+        <tr><td><b>Elements</b></td><td>Ваши сохранённые персонажи, локации, предметы</td></tr>
+        <tr><td><b>Canvas</b></td><td>Рабочее полотно для раскладки кадров</td></tr>
+        <tr><td><b>Chat</b> и <b>AI Director</b></td><td>Помощники внутри проекта</td></tr>
+        <tr><td><b>Folders</b></td><td>Папки, чтобы кадры не сваливались в кучу</td></tr>
+      </table>
+    </div></div>
+    <div class="shell rv" style="margin-top:18px;"><div class="core">
+      <ul class="steps">
+        <li class="step"><input type="checkbox" id="cs2"><label for="cs2">Внизу — строка генерации: слева переключатель <b>Image / Video</b>, рядом с полем промпта — <b>выбор модели</b></label></li>
+        <li class="step"><input type="checkbox" id="cs3"><label for="cs3">Нажмите на модель: в разделе <b>Cinematic models</b> лежат три наших инструмента</label></li>
+        <li class="step"><input type="checkbox" id="cs4"><label for="cs4">Там же качество <b>2K</b>, счётчик количества <b>1/10</b> и блок <b>Camera / Lens</b><span class="hint">Пока Auto — камерой займёмся на следующем уроке</span></label></li>
+        <li class="step"><input type="checkbox" id="cs5"><label for="cs5">У кнопки Generate — счётчик <b>free gens</b><span class="hint">Это 5000 бесплатных генераций для Soul-моделей: кредиты за них не списываются, сегодня пробуем сколько хотим</span></label></li>
+      </ul>
+    </div></div>
+    <div class="shell rv"><div class="core">
+      <table class="md">
+        <tr><th>Модель</th><th>Для чего</th></tr>
+        <tr><td><b>AI Cast</b></td><td>Лица и типажи: выразительные портреты, детальная стилизация</td></tr>
+        <tr><td><b>Cinematic Locations</b></td><td>Окружения с кинематографичным светом</td></tr>
+        <tr><td><b>Higgsfield Soul Cinema</b></td><td>Кино-кадр с вашим обученным персонажем</td></tr>
       </table>
     </div></div>
     <figure class="shell shot rv"><div class="core">
-      <img src="assets/lesson-05/01-frames.png" alt="Кадры сцен подряд" onerror="this.closest('.shot').classList.add('missing')">
-      <div class="ph"><span>📷 скриншот: 01-frames.png — кадры сцен подряд</span></div>
-      <figcaption>Все сцены ролика рядом — так видно, держится ли стиль</figcaption>
+      <img src="assets/lesson-06/02-studio.png" alt="Проект Cinema Studio и строка генерации" onerror="this.closest('.shot').classList.add('missing')">
+      <div class="ph"><span>📷 скриншот: 02-studio.png — проект Cinema Studio и строка генерации</span></div>
+      <figcaption>Проект студии: ассеты, инструменты слева, строка генерации внизу</figcaption>
     </div></figure>
   </section>
 
   <section>
-    <div class="part-head rv"><span class="no">Часть 3 · 20 минут</span><h2>Оживление</h2></div>
-    <p class="part-sub rv">Здесь начинаются деньги: каждый клип на <b>Kling 3.0 Turbo</b> — 7.5 кредитов. Шесть сцен — 45 кредитов.</p>
-    <div class="takeaway rv" style="margin-bottom:20px;">
-      <span class="mark">₵</span>
-      <p><b>Кредиты — это расходник, а не сбережения.</b> Они куплены вместе с подпиской, чтобы превращаться в ролики. Считать их полезно, беречь до последнего — нет: несделанный ролик не стоит сэкономленных кредитов.</p>
-    </div>
+    <div class="part-head rv"><span class="no">Часть 4 · 14 минут</span><h2>Cinematic Locations: строим мир</h2></div>
     <div class="shell rv"><div class="core">
       <ul class="steps">
-        <li class="step"><input type="checkbox" id="a1"><label for="a1">Попросите промпты движения сразу на все сцены — команда в рамке</label></li>
-        <li class="step"><input type="checkbox" id="a2"><label for="a2">Откройте <kbd class="ui">Video</kbd> → <kbd class="ui">Kling 3.0 Turbo</kbd>, загрузите кадр сцены 1, вставьте промпт, запустите</label></li>
-        <li class="step"><input type="checkbox" id="a3"><label for="a3"><b>Не ждите результата — сразу запускайте следующую сцену</b><span class="hint">Клипы рендерятся параллельно, ожидание съедает урок</span></label></li>
-        <li class="step"><input type="checkbox" id="a4"><label for="a4">Пока идёт рендер, проверяйте готовые: движение читается? стиль не поплыл?</label></li>
-        <li class="step"><input type="checkbox" id="a5"><label for="a5">Клип рассыпался — перегенерируйте только его<span class="hint">Ещё 7.5 кр. Причина почти всегда одна: слишком большая амплитуда в промпте</span></label></li>
-        <li class="step"><input type="checkbox" id="a6"><label for="a6">Скачайте все готовые клипы в ту же папку, с теми же номерами</label></li>
+        <li class="step"><input type="checkbox" id="l1"><label for="l1">В строке генерации выберите модель <b>Cinematic Locations</b></label></li>
+        <li class="step"><input type="checkbox" id="l2"><label for="l2">Опишите место словами<span class="hint">Работает то же правило: чего нет в промпте — то додумают за вас</span></label></li>
+        <li class="step"><input type="checkbox" id="l3"><label for="l3">Попробуйте широкий формат — он сразу даёт киношное ощущение</label></li>
+        <li class="step"><input type="checkbox" id="l4"><label for="l4">Сделайте 3–4 разных места вашего сюжета: где начинается, где происходит главное, где заканчивается</label></li>
+        <li class="step"><input type="checkbox" id="l5"><label for="l5">Не жалейте кнопку: эти генерации идут из бесплатного запаса</label></li>
       </ul>
     </div></div>
     <div class="shell prompt rv"><div class="core">
-      <div class="prompt-top"><span>Промпты движения на все сцены</span><button class="copy-btn" data-copy="pr2">Скопировать <span class="ico">→</span></button></div>
-      <pre id="pr2">Для каждой сцены сториборда напиши промпт движения по методике
-Kling. Микродвижение: дыхание, лёгкий наклон, моргание, дрейф
-фона. Камера статична. Стиль и композицию не менять.</pre>
+      <div class="prompt-top"><span>Промпт локации</span><button class="copy-btn" data-copy="pr1">Скопировать <span class="ico">→</span></button></div>
+      <pre id="pr1">Тихий кабинет врача в частной клинике, утренний свет из большого
+окна слева, тёплое дерево и белые стены, растение на подоконнике,
+без людей. Кинематографичный кадр, мягкие тени.</pre>
+    </div></div>
+
+    <div class="shell stop rv"><div class="core">
+      <div class="stop-head"><span class="pin">@</span><h3>Как сохранить локацию в Elements</h3><span class="tag">главный приём урока</span></div>
+      <p style="font-size:15px; color:var(--ink-2); margin-bottom:6px;">Всё удачное складывается в библиотеку и потом вызывается через <b>@</b> в любой генерации.</p>
+      <ul class="steps">
+        <li class="step"><input type="checkbox" id="e1"><label for="e1">Наведите курсор на понравившуюся генерацию → нажмите <b>«…»</b></label></li>
+        <li class="step"><input type="checkbox" id="e2"><label for="e2">Выберите <b>Create Element</b> — из этой картинки создаётся новый элемент</label></li>
+        <li class="step"><input type="checkbox" id="e3"><label for="e3">Хотите усилить элемент? Сгенерируйте ещё пару кадров того же места и добавьте их через <b>Assign to element</b></label></li>
+        <li class="step"><input type="checkbox" id="e4"><label for="e4">Элемент можно собрать и с нуля: раздел <b>Elements</b> в левой колонке</label></li>
+      </ul>
     </div></div>
     <figure class="shell shot rv"><div class="core">
-      <img src="assets/lesson-05/02-queue.png" alt="Очередь клипов в Video" onerror="this.closest('.shot').classList.add('missing')">
-      <div class="ph"><span>📷 скриншот: 02-queue.png — очередь клипов в Video</span></div>
-      <figcaption>Все сцены запущены подряд — рендерятся параллельно</figcaption>
+      <img src="assets/lesson-06/03-element.png" alt="Меню Create Element на генерации" onerror="this.closest('.shot').classList.add('missing')">
+      <div class="ph"><span>📷 скриншот: 03-element.png — меню Create Element</span></div>
+      <figcaption>Меню «…» на генерации: Create Element и Assign to element</figcaption>
     </div></figure>
   </section>
 
   <section>
-    <div class="part-head rv"><span class="no">Часть 4 · опционально, 7 минут</span><h2>Голос</h2></div>
-    <p class="part-sub rv">Если ролику нужен закадровый голос — делаем сейчас. Если он идёт под музыку и субтитры — пропускаем этот блок.</p>
+    <div class="part-head rv"><span class="no">Часть 5 · 12 минут</span><h2>AI Cast: подбираем актёров</h2></div>
+    <p class="part-sub rv">AI Cast — это кастинг: инструмент рисует людей-типажей под вашу сцену.</p>
     <div class="shell rv"><div class="core">
       <ul class="steps">
-        <li class="step"><input type="checkbox" id="v1"><label for="v1">Откройте <kbd class="ui">Audio</kbd>, модель <b>Eleven V3</b> или <b>Qwen</b><span class="hint">У них минимум акцента на русском</span></label></li>
-        <li class="step"><input type="checkbox" id="v2"><label for="v2">Озвучьте текст по одной сцене: одна сцена — одна генерация — 0.3 кредита</label></li>
-        <li class="step"><input type="checkbox" id="v3"><label for="v3">Правьте текст смело: перегенерация почти бесплатна</label></li>
-        <li class="step"><input type="checkbox" id="v4"><label for="v4">Скачайте дорожки с теми же номерами сцен</label></li>
+        <li class="step"><input type="checkbox" id="c1"><label for="c1">Переключите модель на <b>AI Cast</b></label></li>
+        <li class="step"><input type="checkbox" id="c2"><label for="c2">Опишите, кто вам нужен: возраст, типаж, настроение, одежда</label></li>
+        <li class="step"><input type="checkbox" id="c3"><label for="c3">Сгенерируйте несколько вариантов и выберите тех, кто попадает в вашу историю</label></li>
+        <li class="step"><input type="checkbox" id="c4"><label for="c4">Удачный типаж сохраните через <b>Create Element</b> — второстепенные герои пригодятся в сценах</label></li>
+        <li class="step"><input type="checkbox" id="c5"><label for="c5">Приём: одного героя сгенерируйте с разных ракурсов и соберите в один элемент через <b>Assign to element</b><span class="hint">Тогда он будет узнаваем в любом кадре</span></label></li>
       </ul>
     </div></div>
-    <div class="takeaway rv" style="margin-top:20px;">
-      <span class="mark">♪</span>
-      <p><b>Подробный разбор аудио</b> — слепой тест моделей, звуковые эффекты, музыка и клонирование голоса — в отдельной тетради. Пришлю её, если решите делать озвучку всерьёз.</p>
-    </div>
+    <div class="shell prompt rv"><div class="core">
+      <div class="prompt-top"><span>Промпт кастинга</span><button class="copy-btn" data-copy="pr2">Скопировать <span class="ico">→</span></button></div>
+      <pre id="pr2">Женщина-врач около сорока, спокойное доброжелательное лицо,
+белый халат, короткая стрижка. Портрет в интерьере клиники,
+мягкий дневной свет.</pre>
+    </div></div>
+    <figure class="shell shot rv"><div class="core">
+      <img src="assets/lesson-06/04-cast.png" alt="Варианты кастинга" onerror="this.closest('.shot').classList.add('missing')">
+      <div class="ph"><span>📷 скриншот: 04-cast.png — варианты кастинга</span></div>
+      <figcaption>AI Cast: несколько типажей на один запрос</figcaption>
+    </div></figure>
   </section>
 
   <section>
-    <div class="part-head rv"><span class="no">Часть 5 · 5 минут</span><h2>Что дальше</h2></div>
-    <p class="part-sub rv">Ролик почти готов: у вас есть все клипы и, возможно, голос. Осталась склейка — её вы делаете дома в CapCut, <b>это ваша территория</b>.</p>
-    <div class="shell stop rv"><div class="core">
-      <div class="stop-head"><span class="pin">▤</span><h3>Порядок сборки</h3><span class="tag">дома, CapCut</span></div>
+    <div class="part-head rv"><span class="no">Часть 6 · 12 минут</span><h2>Персонаж готов — первые кадры</h2></div>
+    <div class="shell rv"><div class="core">
       <ul class="steps">
-        <li class="step"><input type="checkbox" id="s1"><label for="s1">Клипы по номерам сцен на таймлайн</label></li>
-        <li class="step"><input type="checkbox" id="s2"><label for="s2">Голос или музыка вторым слоем</label></li>
-        <li class="step"><input type="checkbox" id="s3"><label for="s3">Подрезать клипы под темп речи<span class="hint">Пауза после мысли важнее лишней секунды картинки</span></label></li>
-        <li class="step"><input type="checkbox" id="s4"><label for="s4">Субтитры последним слоем — крупно, по центру, не больше двух строк</label></li>
-        <li class="step"><input type="checkbox" id="s5"><label for="s5">Экспорт 9:16, 1080p</label></li>
+        <li class="step"><input type="checkbox" id="r1"><label for="r1">Проверьте: обучение вашего Soul закончилось?</label></li>
+        <li class="step"><input type="checkbox" id="r2"><label for="r2">Переключите модель на <b>Higgsfield Soul Cinema</b> и выберите своего персонажа</label></li>
+        <li class="step"><input type="checkbox" id="r3"><label for="r3">Опишите сцену промптом из рамки, качество <b>2K</b></label></li>
+        <li class="step"><input type="checkbox" id="r4"><label for="r4">Сделайте 3–4 кадра в разных местах и с разным светом<span class="hint">Проверка: это один и тот же человек?</span></label></li>
+        <li class="step"><input type="checkbox" id="r5"><label for="r5">Сравните с исходными фотографиями<span class="hint">Поплыл — обычно виновата однообразная подборка фото</span></label></li>
       </ul>
     </div></div>
+    <div class="shell prompt rv"><div class="core">
+      <div class="prompt-top"><span>Первый кадр с персонажем</span><button class="copy-btn" data-copy="pr3">Скопировать <span class="ico">→</span></button></div>
+      <pre id="pr3">Портрет героя в кабинете клиники, он смотрит в камеру и мягко
+улыбается. Мягкий дневной свет из окна слева, тёплые тона,
+неглубокая резкость. Кинематографичный кадр.</pre>
+    </div></div>
+    <figure class="shell shot rv"><div class="core">
+      <img src="assets/lesson-06/05-result.png" alt="Кадры с обученным персонажем" onerror="this.closest('.shot').classList.add('missing')">
+      <div class="ph"><span>📷 скриншот: 05-result.png — кадры с обученным персонажем</span></div>
+      <figcaption>Один человек в разных сценах и при разном свете</figcaption>
+    </div></figure>
   </section>
 
   <div class="rule"></div>
 
   <section>
     <span class="eyebrow rv"><span class="dot" style="background:var(--clay);"></span>Домашнее задание</span>
-    <div class="shell rv" style="margin-top:18px;"><div class="core">
+    <p class="part-sub rv" style="margin-top:18px;">Сегодня вы собрали то, из чего делается кино: <b>лицо, места и типажи</b> — и всё это лежит в одном проекте студии. На следующем уроке беремся за камеру: объектив, свет, жанр и движение кадра.</p>
+    <div class="shell rv"><div class="core">
       <div class="hw-item">
         <span class="n">1</span>
-        <div><h4>Соберите ролик в CapCut</h4><p>И пришлите мне готовый файл.</p></div>
+        <div><h4>10 кадров с вашим персонажем</h4><p>Разные места, разный свет, разные планы: общий, средний, крупный. Всё из бесплатного запаса Soul — кредиты не тратятся.</p></div>
       </div>
       <div class="hw-item">
         <span class="n">2</span>
-        <div><h4>Запишите расход кредитов</h4><p>За урок и дома. Теперь вы знаете себестоимость тридцатисекундного ролика — это цифра для сметы клиенту.</p></div>
+        <div><h4>Локации доведите до библиотеки</h4><p>3–4 места вашего сюжета сохранены как Elements.</p></div>
       </div>
       <div class="hw-item">
         <span class="n">3</span>
-        <div><h4>Отметьте два места, где было тяжелее всего</h4><p>С них начнём следующий урок.</p></div>
+        <div><h4>Один-два типажа из AI Cast</h4><p>Тоже в Elements, желательно с несколькими ракурсами в одном элементе.</p></div>
       </div>
       <div class="hw-item">
         <span class="n">4</span>
-        <div><h4>Минимум 15 фотографий человека для кино-персонажа</h4><p>На следующем уроке делаем живого героя для киношных кадров. Можно и больше — чем разнообразнее подборка, тем крепче получится персонаж. Требования пришлю отдельно.</p></div>
+        <div><h4>Заполните Project brief</h4><p>Пара абзацев о том, что за история и в каком она стиле.</p></div>
+      </div>
+      <div class="hw-item">
+        <span class="n">5</span>
+        <div><h4>Отметьте, где персонаж перестаёт быть похожим</h4><p>Это подскажет, каких фотографий не хватило.</p></div>
+      </div>
+      <div class="hw-item">
+        <span class="n">6</span>
+        <div><h4>Пришлите мне кадры и список элементов</h4><p>С них начнём следующий урок.</p></div>
       </div>
       <div class="hw-check">
-        <h4>Чек готовности к уроку 6</h4>
+        <h4>Чек готовности к уроку 7</h4>
         <ul class="steps">
-          <li class="step"><input type="checkbox" id="h1"><label for="h1">Ролик собран и отправлен мне</label></li>
-          <li class="step"><input type="checkbox" id="h2"><label for="h2">Известна себестоимость: сколько кредитов ушло на 30 секунд</label></li>
-          <li class="step"><input type="checkbox" id="h3"><label for="h3">Фотографии для кино-персонажа отобраны — минимум 15 разных</label></li>
+          <li class="step"><input type="checkbox" id="h1"><label for="h1">Персонаж обучен и узнаётся в разных сценах</label></li>
+          <li class="step"><input type="checkbox" id="h2"><label for="h2">Проект в Cinema Studio создан, brief заполнен</label></li>
+          <li class="step"><input type="checkbox" id="h3"><label for="h3">3–4 локации и 1–2 типажа сохранены как Elements</label></li>
+          <li class="step"><input type="checkbox" id="h4"><label for="h4">10 кадров с персонажем сделаны и отправлены мне</label></li>
         </ul>
       </div>
     </div></div>
@@ -434,7 +528,7 @@ Kling. Микродвижение: дыхание, лёгкий наклон, м
 
   <footer class="foot">
     <div class="fleur">✳</div>
-    Курс «Нейровидео на Higgsfield» · Урок 5
+    Курс «Нейровидео на Higgsfield» · Урок 6
   </footer>
 </div>
 
