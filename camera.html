@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ru"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Higgsfield · Язык камеры — гид на русском</title>
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0b0d;
+    --bg-panel:#121215;
+    --bg-code:#0e0e11;
+    --line:#232328;
+    --neon:#f2d21f;
+    --neon-dim:rgba(242,210,31,.35);
+    --text:#e8e6df;
+    --text-dim:#9a978e;
+    --text-faint:#66645c;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter',system-ui,sans-serif;
+    font-size:16px;
+    line-height:1.65;
+    position:relative;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:999;opacity:.05;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .frame{max-width:960px;margin:0 auto;padding:0 28px 120px;}
+
+  header{padding:72px 0 48px;border-bottom:1px solid var(--line);position:relative;}
+  header::after{content:"";position:absolute;left:0;bottom:-1px;width:120px;height:1px;background:var(--neon);box-shadow:0 0 12px var(--neon-dim);}
+  .kicker{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--neon);margin-bottom:20px;}
+  h1{font-family:'Archivo',sans-serif;font-stretch:75%;font-weight:800;font-size:clamp(40px,7vw,64px);line-height:1.02;letter-spacing:-.01em;text-transform:uppercase;}
+  h1 .thin{color:var(--text-faint)}
+  .lede{margin-top:22px;font-size:18px;color:var(--text-dim);max-width:640px}
+
+  nav{display:flex;flex-wrap:wrap;gap:8px;padding:24px 0;border-bottom:1px solid var(--line);}
+  nav a{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.06em;color:var(--text-dim);text-decoration:none;border:1px solid var(--line);padding:7px 13px;border-radius:3px;transition:.15s;}
+  nav a:hover,nav a:focus-visible{color:var(--neon);border-color:var(--neon-dim);outline:none}
+
+  section{padding:56px 0 8px}
+  h2{font-family:'Archivo',sans-serif;font-stretch:75%;font-weight:700;font-size:26px;text-transform:uppercase;letter-spacing:.02em;margin-bottom:18px;}
+  p{color:var(--text-dim);margin-bottom:14px;max-width:720px}
+  p strong,li strong{color:var(--text)}
+  .callout{border:1px solid var(--line);border-left:2px solid var(--neon);background:var(--bg-panel);padding:16px 20px;border-radius:4px;margin:22px 0;color:var(--text-dim);max-width:720px;}
+  .callout::before{content:"✦";color:var(--neon);margin-right:10px}
+  .callout.warn{border-left-color:#e0574c}
+  .callout.warn::before{content:"⚠";color:#e0574c}
+
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:28px;}
+  @media (max-width:640px){.grid{grid-template-columns:1fr}}
+
+  .cam-card{border:1px solid var(--line);border-radius:6px;background:var(--bg-panel);padding:22px 24px;display:flex;flex-direction:column;gap:12px;}
+  .cam-head{display:flex;align-items:center;gap:12px;}
+  .cam-emoji{font-size:22px;line-height:1;}
+  .cam-head h3{font-family:'Archivo',sans-serif;font-stretch:75%;font-weight:800;font-size:18px;text-transform:uppercase;letter-spacing:.01em;}
+  .cam-head span.en{display:block;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.08em;color:var(--text-faint);text-transform:none;margin-top:2px;}
+  .cam-card>p{font-size:14.5px;margin-bottom:0;max-width:100%}
+
+  .prompt-label{display:flex;justify-content:space-between;align-items:center;gap:14px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-dim);margin-top:4px;}
+  .copy-btn{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.05em;color:var(--neon);background:none;border:1px solid var(--neon-dim);border-radius:3px;padding:5px 12px;cursor:pointer;transition:.15s;white-space:nowrap;}
+  .copy-btn:hover,.copy-btn:focus-visible{background:rgba(242,210,31,.08);outline:none}
+  .prompt{background:var(--bg-code);border:1px solid var(--line);border-radius:4px;padding:14px 16px;font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.6;color:#c9c7bd;white-space:pre-wrap;}
+
+  .combo{margin-top:18px;border:1px solid var(--line);border-radius:6px;background:var(--bg-panel);padding:22px 24px;}
+  .combo.bad{border-color:rgba(224,87,76,.4)}
+  .combo h4{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-dim);margin-bottom:10px;}
+  .combo.bad h4{color:#e0574c}
+  .combo p.note{font-size:13.5px;color:var(--text-faint);margin-top:10px;margin-bottom:0}
+
+  footer{margin-top:80px;padding-top:26px;border-top:1px solid var(--line);font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text-faint);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+
+  @media (max-width:640px){.frame{padding:0 18px 90px}}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="frame">
+
+<header>
+  <div class="kicker">Higgsfield · Язык камеры для нейровидео</div>
+  <h1>Планы и<br>движения <span class="thin">камеры</span></h1>
+  <p class="lede">Шпаргалка с русским названием, когда использовать и готовой английской фразой для промпта — просто скопируйте её в описание кадра.</p>
+</header>
+
+<nav aria-label="Разделы">
+  <a href="#plans">🎞 Планы</a>
+  <a href="#moves">🎥 Движения камеры</a>
+  <a href="#combo">🔗 Готовые связки</a>
+</nav>
+
+<section id="intro">
+  <h2>Зачем это нужно</h2>
+  <p>Модель не понимает «сними покрасивее» — ей нужна конкретная команда: какая крупность кадра и как движется камера. Эти два параметра управляют почти всей операторской работой в тексте промпта. Фразы ниже — на английском: модели читают операторские термины на нём точнее всего, даже если весь остальной промпт написан по-русски.</p>
+  <div class="callout">Один и тот же план можно снять статичной камерой или в движении — это два разных, независимых решения. Сначала выбираете крупность (раздел «Планы»), потом — что делает камера (раздел «Движения»), и складываете это в одну фразу.</div>
+  <div class="callout warn"><b>Правило одного клипа:</b> в один ролик длиной 5 секунд закладывайте только одну операторскую идею — один план и одно движение. Попытка смешать в одном клипе «средний план + крупный план + восьмёрку» на уроке привела к тому, что модель запуталась и результат пришлось переснимать. Меняете план — снимаете новый клип и склеиваете их в монтаже.</div>
+</section>
+
+<!-- =============================== PLANS =============================== -->
+<section id="plans">
+  <h2>Планы (крупность кадра)</h2>
+  <p>От самого дальнего к самому крупному — по этому же порядку модель обычно и «читает» команду.</p>
+  <div class="grid">
+
+    <div class="cam-card">
+      <div class="cam-head"><span class="cam-emoji">🏞️</span><div><h3>Дальний план<span class="en">Extreme Wide Shot</span></h3></div></div>
+      <p>Человек — маленькая фигура на фоне окружения. Для установки места действия: «где мы находимся».</p>
+      <div class="prompt-label"><span>Промпт-фраза</span><button class="copy-btn" data-copy="">Копировать</button></div>
+      <div class="prompt">extreme wide shot, the subject appears small within the surrounding environment</div>
+    </div>
+
+    <div class="cam-card">
+      <div class="cam-head"><span class="cam-emoji">🧍</span><div><h3>Общий план<span class="en">Wide Shot</span></h3></div></div>
+      <p>Человек виден в полный рост, вокруг ещё много пространства. Показывает и героя, и место.</p>
+      <div class="prompt-label"><span>Промпт-фраза</span><button class="copy-btn" data-copy="">Копировать</button></div>
+      <div class="prompt">wide shot, the subject is visible full-length with the environment clearly in frame</div>
+    </div>
+
+    <div class="cam-card">
+      <div class="cam-head"><span class="cam-emoji">👤</span><div><h3>Средний план<span class="en">Medium Shot</span></h3></div></div>
+      <p>Кадрирование примерно от пояса. Базовый, самый «безопасный» план — большинство говорящих сцен снимают именно так.</p>
+      <div class="prompt-label"><span>Промпт-фраза</span><button class="copy-btn" data-copy="">Копировать</button></div>
+      <div class="prompt">medium shot, framed from the waist up</div>
+    </div>
+
+    <div class="cam-card">
+      <div class="cam-head"><span class="cam-emoji">🙂</span><div><h3>Крупный план<span class="en">Close-Up</span></h3></div></div>
+      <p>Лицо и плечи. Используйте, когда важна эмоция или реакция героя, а не пространство вокруг.</p>
+      <div class="prompt-label"><span>Промпт-фраза</span><button class="copy-btn" data-copy="">Копировать</button></div>
+      <div class="prompt">close-up shot, framed on the face and shoulders</div>
+    </div>
+
+    <div class="cam-card">
+      <div class="cam-head"><span class="cam-emoji">👁️</span><div><h3>Деталь<span class="en">Extreme Close-Up / Insert</span></h3></div></div>
+      <p>Только глаза, руки или предмет — без остального лица и тела. Для акцента на одной важной детали.</p>
+      <div class="prompt-label"><span>Промпт-фраза</span><button class="copy-btn" data-copy="">Копировать</button></div>
+      <div class="prompt">extreme close-up insert shot on the [eyes / hands / object]</div>
+    </div>
+
+    <div class="cam-card">
+      <div class="cam-head"><span class="cam-emoji">🤝</span><div><h3>Двойной план<span class="en">Two-Shot / Over-the-Shoulder</span></h3></div></div>
+      <p>Два человека в кадре одновременно, часто через плечо одного из них. Для диалогов и сцен встречи.</p>
+      <div class="prompt-label"><span>Промпт-фраза</span><button class="copy-btn" data-copy="">Копировать</button></div>
+      <div class="prompt">two-shot, over-the-shoulder framing, both characters visible in frame</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- =============================== MOVEMENTS =============================== -->
+<section id="moves">
+  <h2>Движения камеры</h2>
+  <p>Что физически делает камера, пока идёт съёмка. Можно комбинировать с любым планом выше — но только одно движение на один клип.</p>
+  <div class="grid">
+
+    <div class="cam-card">
+      <div class="cam-head"><span class="cam-emoji">🔒</span><div><h3>Статика<span class="en">Static / Locked-off</span></h3></div></div>
+      <p>Камера полностью неподвижна. Самый предсказуемый вариант для ИИ — стоит начинать с него, если не уверены.</p>
+      <div class="prompt-label"><span>Промпт-фраза</span><button class="copy-btn" data-copy="">Копировать</button></div>
+      <div class="prompt">static locked-off camera, no camera movement</div>
+    </div>
+
+    <div class="cam-card">
+      <div class="cam-head"><span class="cam-emoji">↔️</span><div><h3>Панорама<span class="en">Pan</span></h3></div></div>
+      <p>Камера поворачивается влево или вправо вокруг своей оси, не сходя с места. Для обзора пространства.</p>
+      <div class="prompt-label"><span>Промпт-фраза</span><button class="copy-btn" data-copy="">Копировать</button></div>
+      <div class="prompt">camera slowly pans to the right, revealing the surrounding space</div>
+    </div>
+
+    <div class="cam-card">
+      <div class="cam-head"><span class="cam-emoji">🔍</span><div><h3>Наезд<span class="en">Push-in / Dolly In</span></h3></div></div>
+      <p>Камера физически приближается к герою. Нагнетает внимание, хорошо работает на ключевой реплике или эмоции.</p>
+      <div class="prompt-label"><span>Промпт-фраза</span><button class="copy-btn" data-copy="">Копировать</button></div>
+      <div class="prompt">camera slowly pushes in toward the subject</div>
+    </div>
+
+    <div class="cam-card">
+      <div class="cam-head"><span class="cam-emoji">🌐</span><div><h3>Отъезд<span class="en">Pull-out / Dolly Out</span></h3></div></div>
+      <p>Камера отдаляется от героя, раскрывая пространство вокруг. Хорошо для финала сцены или смены контекста.</p>
+      <div class="prompt-label"><span>Промпт-фраза</span><button class="copy-btn" data-copy="">Копировать</button></div>
+      <div class="prompt">camera slowly pulls back, revealing the wider scene</div>
+    </div>
+
+    <div class="cam-card">
+      <div class="cam-head"><span class="cam-emoji">🛤️</span><div><h3>Тревеллинг<span class="en">Tracking Shot</span></h3></div></div>
+      <p>Камера движется вбок, параллельно герою — например, рядом с идущим или едущим персонажем.</p>
+      <div class="prompt-label"><span>Промпт-фраза</span><button class="copy-btn" data-copy="">Копировать</button></div>
+      <div class="prompt">camera tracks alongside the subject, moving in parallel</div>
+    </div>
+
+    <div class="cam-card">
+      <div class="cam-head"><span class="cam-emoji">🪐</span><div><h3>Облёт<span class="en">Orbit / Arc Shot</span></h3></div></div>
+      <p>Камера двигается по дуге вокруг героя. Эффектно для презентации персонажа или продукта.</p>
+      <div class="prompt-label"><span>Промпт-фраза</span><button class="copy-btn" data-copy="">Копировать</button></div>
+      <div class="prompt">camera slowly orbits around the subject</div>
+    </div>
+
+    <div class="cam-card">
+      <div class="cam-head"><span class="cam-emoji">↕️</span><div><h3>Наклон<span class="en">Tilt Up / Down</span></h3></div></div>
+      <p>Камера поворачивается по вертикали, оставаясь на месте — например, снизу вверх по герою или зданию.</p>
+      <div class="prompt-label"><span>Промпт-фраза</span><button class="copy-btn" data-copy="">Копировать</button></div>
+      <div class="prompt">camera tilts slowly upward, no lateral movement</div>
+    </div>
+
+    <div class="cam-card">
+      <div class="cam-head"><span class="cam-emoji">📳</span><div><h3>Ручная камера<span class="en">Handheld</span></h3></div></div>
+      <p>Лёгкая естественная тряска, ощущение «камера в руках человека». Для репортажности и живости.</p>
+      <div class="prompt-label"><span>Промпт-фраза</span><button class="copy-btn" data-copy="">Копировать</button></div>
+      <div class="prompt">handheld camera with subtle natural shake</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- =============================== COMBOS =============================== -->
+<section id="combo">
+  <h2>Готовые связки для промпта</h2>
+  <p>План + движение + герой = одна операторская идея на один клип. Вот три рабочих примера — берите как основу.</p>
+
+  <div class="combo">
+    <h4>✓ Средний план, статика — для говорящей головы</h4>
+    <div class="prompt-label"><span>Промпт</span><button class="copy-btn" data-copy="">Копировать</button></div>
+    <div class="prompt">Static medium shot, framed from the waist up. The doctor speaks directly to camera, subtle natural micro-movements only.</div>
+  </div>
+
+  <div class="combo">
+    <h4>✓ Общий план → наезд — для входа героя в сцену</h4>
+    <div class="prompt-label"><span>Промпт</span><button class="copy-btn" data-copy="">Копировать</button></div>
+    <div class="prompt">Wide shot of the clinic reception. Camera slowly pushes in to a medium shot as the administrator turns to greet the visitor.</div>
+  </div>
+
+  <div class="combo">
+    <h4>✓ Средний план, тревеллинг — для движения по коридору</h4>
+    <div class="prompt-label"><span>Промпт</span><button class="copy-btn" data-copy="">Копировать</button></div>
+    <div class="prompt">Medium shot throughout. Camera tracks alongside the character walking through the corridor.</div>
+  </div>
+
+  <div class="combo bad">
+    <h4>✗ Так не надо — три идеи в одном клипе</h4>
+    <div class="prompt-label"><span>Промпт</span><button class="copy-btn" data-copy="">Копировать</button></div>
+    <div class="prompt">Medium shot cuts to close-up while the camera orbits and pushes in at the same time.</div>
+    <p class="note">Именно так и не получилось на уроке: средний план, крупный план и облёт камеры в одном 5-секундном ролике — модель не смогла собрать это в одно связное движение. Каждую идею — в отдельный клип, а вместе их соединяет уже монтаж.</p>
+  </div>
+</section>
+
+<footer>
+  <span>Higgsfield · Язык камеры</span>
+  <span>nv-lessons</span>
+</footer>
+
+</div>
+
+<script>
+document.querySelectorAll('[data-copy]').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const box = btn.closest('.cam-card, .combo').querySelector('.prompt');
+    const txt = box.innerText;
+    navigator.clipboard.writeText(txt).then(()=>{
+      const old=btn.textContent;btn.textContent='Скопировано ✓';
+      setTimeout(()=>btn.textContent=old,1600);
+    });
+  });
+});
+</script>
+
+</body></html>
